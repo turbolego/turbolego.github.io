@@ -2,13 +2,21 @@
 layout: base.njk
 title: Home
 ---
-<h1>Latest Posts</h1>
-
-{% set postslist = collections.posts | default([]) | head(-5) %}
-
-{% if postslist.length %}
-  {% include "postslist.njk" %}
-  <p>More posts can be found in <a href="/blog/">the archive</a>.</p>
-{% else %}
-  <p>No posts found. Create your first post in <code>src/posts/</code> to get started!</p>
-{% endif %}
+<div class="container content">
+  <div>
+    <h1>Welcome to {{ metadata.title }}</h1>
+    <p>A personal blog built with Eleventy.</p>
+    
+    <div class="recent-posts">
+      <h2>Recent Posts</h2>
+      {% set postslist = collections.posts | default([]) | head(-3) %}
+      
+      {% if postslist.length %}
+        {% include "postslist.njk" %}
+        <p>More posts can be found in <a href="/blog/">the archive</a>.</p>
+      {% else %}
+        <p>No posts found. Create your first post in <code>src/posts/</code> to get started!</p>
+      {% endif %}
+    </div>
+  </div>
+</div>

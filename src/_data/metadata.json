@@ -1,7 +1,8 @@
 {
-  "title": "Turbo Lego Blog",
+  "title": "Turbolego Blog",
   "url": "https://turbolego.github.io",
-  "description": "Personal blog site",
+  "description": "Personal blog site built with Eleventy",
+  "keywords": "eleventy, blog, javascript, web development, static site", 
   "feed": {
     "subtitle": "Personal blog site",
     "filename": "feed.xml",
@@ -13,7 +14,12 @@
     "url": "https://turbolego.github.io/feed/feed.json"
   },
   "author": {
-    "name": "Your Name",
-    "email": "your-email@example.com"
+    "name": "Tobias Müller Andersen",
+    "email": "turbolego@gmail.com",
+    "url": "https://github.com/turbolego"
+  },
+  "social": {
+    "github": "https://github.com/turbolego",
+    "twitter": ""
   }
 }

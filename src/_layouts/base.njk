@@ -5,27 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title or metadata.title }}</title>
     <meta name="description" content="{{ description or metadata.description }}">
-    <link rel="stylesheet" href="/css/style.css">
+    <meta name="author" content="{{ metadata.author.name }}">
+    <meta name="generator" content="Eleventy">
+    <meta name="keywords" content="{{ keywords or metadata.keywords or 'blog,eleventy,static site' }}">
+    
+    <!-- Reset stylesheet - load first to ensure it's not overridden -->
+    <link rel="stylesheet" href="/css/reset.css">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="{{ title or metadata.title }}">
+    <meta property="og:description" content="{{ description or metadata.description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ metadata.url }}{{ page.url }}">
+    
+    <!-- RSS feed -->
+    <link rel="alternate" href="{{ metadata.feed.path | url }}" type="application/atom+xml" title="{{ metadata.title }}">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/stylesheet.css">
+    <link rel="stylesheet" id="theme-link" href="/css/light.css" title="Code highlight">
+    
+    <!-- Inline style to ensure no text decoration except links -->
+    <style>
+      * { text-decoration: none !important; }
+      a { text-decoration: underline !important; }
+      body a { color: var(--link-color); }
+      .nav a, .site-title a, .tabs a, footer a, header a, .tag { text-decoration: none !important; }
+    </style>
   </head>
-  <body>
+  
+  <body id="nightModeDiv" vocab="https://schema.org/">
     <header>
-      <nav>
-        <h1 class="site-title"><a href="/">{{ metadata.title }}</a></h1>
-        <ul class="nav">
-          <li class="nav-item"><a href="/">Home</a></li>
-          <li class="nav-item"><a href="/blog/">Archive</a></li>
-          <li class="nav-item"><a href="/about/">About</a></li>
-        </ul>
+      <nav class="nav">
+        <div class="content">
+          <!-- Logo and site title -->
+          <div class="nav-left">
+            <h1 class="site-title"><a href="/" property="url">{{ metadata.title }}</a></h1>
+          </div>
+          
+          <div class="nav-right">
+            <!-- Navigation tabs -->
+            <div class="tabs">
+              <a href="/">Home</a>
+              <a href="/blog/">Archive</a>
+              <a href="/about/">About</a>
+              
+              <!-- Dark / light mode switcher with emoji -->
+              <div id="nightModeWrapper">
+                <button id="theme-toggle" class="night-mode-btn" title="Toggle dark/light mode" aria-label="Toggle dark/light mode">
+                  🌑
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- GitHub ribbon has been removed -->
       </nav>
     </header>
 
-    <main{% if templateClass %} class="{{ templateClass }}"{% endif %}>
-      {{ content | safe }}
+    <main typeof="WebPage" property="mainEntity">
+      <div property="mainEntityOfPage">
+        {{ content | safe }}
+      </div>
     </main>
 
-    <footer>
-      <p>&copy; 2025 {{ metadata.author.name }}</p>
-    </footer>
+    {% include "footer.njk" %}
+    
+    <!-- Scripts -->
+    <script src="/js/theme.js"></script>
     <script src="/js/main.js"></script>
   </body>
 </html>

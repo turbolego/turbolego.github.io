@@ -1,4 +1,5 @@
 /* Custom styles that extend the chota framework */
+
 :root {
   --primary-color: #1a73e8;
   --secondary-color: #3740ff;
@@ -114,5 +115,3 @@ pre code {
   background: none;
   padding: 0;
 }
-
-/*# sourceMappingURL=style.css.map */

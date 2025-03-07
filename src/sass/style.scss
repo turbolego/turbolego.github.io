@@ -1,0 +1,552 @@
+:root {
+  --bg-color: #ffffff;
+  --bg-secondary-color: #f5f5f5;
+  --color-primary: #333333;
+  --color-lightGrey: #dddddd;
+  --color-grey: #888888;
+  --color-darkGrey: #555555;
+  --color-error: #666666;
+  --color-success: #444444;
+  --font-color: #000000;
+  --navbar-bg-color: #eeeeee;
+  --footer-bg-color: #eeeeee;
+  --transparent-error: rgba(150, 150, 150, 0.3);
+  --transparent-success: rgba(200, 200, 200, 0.3);
+  --link-color: #333333; // Darker link color for better contrast
+  --grid-maxWidth: 120rem;
+  --grid-gutter: 2rem;
+  --font-size: 1.6rem;
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: monaco, "Consolas", "Lucida Console", monospace;
+  --content-width: 75%;
+}
+
+.dark-theme {
+  --bg-color: #000000;
+  --bg-secondary-color: #222222;
+  --color-primary: #cccccc;
+  --color-lightGrey: #444444;
+  --color-grey: #888888;
+  --color-darkGrey: #aaaaaa;
+  --color-error: #999999;
+  --color-success: #bbbbbb;
+  --font-color: #ffffff;
+  --navbar-bg-color: #111111;
+  --footer-bg-color: #111111;
+  --transparent-error: rgba(120, 120, 120, 0.3);
+  --transparent-success: rgba(200, 200, 200, 0.3);
+  --link-color: #ffffff;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  font-family: var(--font-family-sans), sans-serif;
+  color: var(--font-color);
+  background-color: var(--bg-color);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+
+  nav {
+    width: 100% !important;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--navbar-bg-color);
+    padding: 1rem;
+
+    img {
+      max-height: none !important;
+    }
+
+    .tabs {
+      align-items: flex-end;
+      display: flex;
+      justify-content: space-between;
+
+      a {
+        color: var(--font-color);
+        text-decoration: none;
+      }
+
+      details {
+        border-bottom: 2px solid var(--color-lightGrey);
+
+        summary {
+          background-color: transparent !important;
+          border-bottom-color: transparent !important;
+        }
+
+        button:hover {
+          background-color: transparent;
+          border-bottom: none !important;
+        }
+
+        p {
+          a {
+            border-bottom-width: 0 !important;
+          }
+        }
+
+        .card {
+          z-index: 10;
+        }
+      }
+
+      details:hover {
+        background-color: var(--color-lightGrey);
+        border-bottom-color: var(--color-darkGrey);
+      }
+
+      details[open] {
+        background-color: var(--transparent-success);
+      }
+
+      .button {
+        background-color: var(--navbar-bg-color);
+        border-bottom: 2px solid var(--color-lightGrey);
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-left: 0;
+        margin-right: 0;
+        opacity: 1;
+      }
+
+      #nightModeWrapper {
+        margin-bottom: 0;
+        display: block;
+      }
+
+      .button:hover,
+      a:hover {
+        background-color: var(--color-lightGrey);
+        border-bottom: 2px solid var(--color-darkGrey);
+      }
+    }
+  }
+
+  & > footer {
+    padding: 1rem;
+    width: 100% !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--footer-bg-color);
+  }
+}
+
+// More aggressive approach to reset text decoration
+* {
+  text-decoration: none !important;
+}
+
+// Only links should have underlines - use higher specificity
+body a {
+  text-decoration: underline !important;
+  color: #333333; // Ensure dark enough for contrast
+}
+
+// Exceptions for navigation links and other UI elements
+body .nav a,
+body .site-title a,
+body .tabs a,
+body footer a,
+body header a {
+  text-decoration: none !important;
+}
+
+pre {
+  max-width: 90vw;
+}
+
+code {
+  font-family: var(--font-family-mono), sans-serif;
+  color: var(--link-color);
+  background: var(--bg-secondary-color);
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-size: 85%;
+}
+
+.button {
+  color: var(--font-color);
+}
+
+.logo {
+  margin: 0;
+  font-weight: bold;
+  font-size: medium;
+}
+
+.content {
+  width: var(--content-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+}
+
+.night-mode-btn {
+  color: var(--font-color);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  svg {
+    fill: var(--font-color);
+  }
+}
+
+.stretch-height {
+  height: 100%;
+}
+
+article {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.blog-list {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.blog-single {
+  color: var(--font-color);
+  border-style: solid;
+  border-width: 1px;
+  padding: 1rem;
+
+  .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .description {
+    margin-top: 1rem;
+  }
+}
+
+// Custom styles for our existing classes
+.site-title {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.site-title a {
+  text-decoration: none;
+  color: var(--font-color);
+}
+
+.nav {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-item a {
+  color: var(--font-color);
+  text-decoration: none;
+}
+
+.nav-item a:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.post-list {
+  list-style: none;
+  padding: 0;
+}
+
+.post-item {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-lightGrey);
+}
+
+.post-date {
+  color: var(--color-grey);
+  font-size: 0.9rem;
+  display: block;
+}
+
+.tag {
+  display: inline-block;
+  background: var(--bg-secondary-color);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin-right: 0.5rem;
+  color: var(--font-color);
+  text-decoration: none;
+}
+
+.tag:hover {
+  background: var(--color-lightGrey);
+  text-decoration: none;
+}
+
+.post-content {
+  margin-top: 2rem;
+}
+
+main {
+  width: var(--content-width);
+  margin: 0 auto;
+  padding: 1rem;
+  background-color: var(--bg-color);
+  color: var(--font-color);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+main .card {
+  background-color: var(--bg-secondary-color);
+  border: 1px solid var(--color-lightGrey);
+}
+
+// Keep links in main content area dark 
+main a {
+  color: var(--color-primary);
+}
+
+// Force proper contrast for code blocks in main content
+main code {
+  background-color: var(--bg-secondary-color);
+  color: var(--font-color);
+}
+
+/* 
+Syntax highlight diff styling
+Refer to https://www.11ty.dev/docs/plugins/syntaxhighlight/
+*/
+.token.deleted {
+  background-color: var(--transparent-error);
+}
+
+.token.inserted {
+  background-color: var(--transparent-success);
+}
+
+/* Make the + and - characters unselectable for copy/paste */
+.token.prefix.unchanged,
+.token.prefix.inserted,
+.token.prefix.deleted {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+// Language selection styles
+.language-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+
+  .row {
+    margin-bottom: 1rem;
+  }
+}
+
+.container.is-center {
+  text-align: center;
+}
+
+.primary-button {
+  background-color: var(--navbar-bg-color);
+  color: var(--font-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  display: inline-block;
+  text-decoration: none;
+
+  &:hover {
+    background-color: var(--color-primary);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// For language-specific features
+[lang] {
+  font-family: var(--font-family-sans), sans-serif;
+}
+
+// New navigation styles inspired by polyglot-tech-blog
+.nav {
+  padding: 1rem;
+  width: 100%;
+  background-color: var(--navbar-bg-color);
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .tabs {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    a {
+      color: var(--font-color);
+      text-decoration: none;
+      padding: 0.5rem 0;
+      border-bottom: 2px solid transparent;
+
+      &:hover {
+        border-bottom: 2px solid var(--color-darkGrey);
+      }
+    }
+  }
+}
+
+// Night mode wrapper and button
+#nightModeWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.night-mode-btn {
+  color: var(--font-color);
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: var(--color-lightGrey);
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--font-color);
+  }
+}
+
+// Enhanced footer styles
+footer {
+  padding: 2rem 1rem;
+  width: 100% !important;
+  background-color: var(--footer-bg-color);
+  color: var(--font-color);
+
+  .content {
+    width: var(--content-width);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .col {
+    flex: 1;
+    padding: 0 1rem;
+
+    &.is-center {
+      text-align: center;
+    }
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .social-links {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+
+    li {
+      margin-bottom: 0.5rem;
+
+      a {
+        display: flex;
+        align-items: center;
+        color: var(--font-color);
+        text-decoration: none;
+
+        svg {
+          margin-right: 0.5rem;
+        }
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .copyright {
+    text-align: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-lightGrey);
+  }
+}
+
+@media (max-width: 768px) {
+  footer .row {
+    flex-direction: column;
+
+    .col {
+      margin-bottom: 1.5rem;
+    }
+  }
+}
+
+// Additional styles for schema.org attributes
+[property="mainEntity"],
+[property="mainEntityOfPage"] {
+  // These are invisible attributes that don't need specific styling
+  // but we can add them here for future reference
+}
+
+// Ensure that schema.org attributes don't affect layout
+[property],
+[typeof] {
+  display: inherit;
+}
