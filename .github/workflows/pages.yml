@@ -1,4 +1,4 @@
-name: Pages
+name: Deploy Hexo
 
 on:
   push:
@@ -6,38 +6,31 @@ on:
       - main
 
 jobs:
-  build:
+  pages:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          submodules: recursive
-      - name: Use Node.js 20
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install Dependencies
+
+      - name: Install dependencies
         run: |
           npm install
-          npm install hexo-cli -g
+          npm install hexo-theme-landscape
+
       - name: Build
-        run: hexo generate
-      - name: Upload Pages artifact
+        run: npx hexo generate
+
+      - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
 
-  deploy:
-    needs: build
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: Deploy
         uses: actions/deploy-pages@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
