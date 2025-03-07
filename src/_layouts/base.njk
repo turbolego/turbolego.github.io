@@ -9,8 +9,8 @@
     <meta name="generator" content="Eleventy">
     <meta name="keywords" content="{{ keywords or metadata.keywords or 'blog,eleventy,static site' }}">
     
-    <!-- Reset stylesheet - load first to ensure it's not overridden -->
-    <link rel="stylesheet" href="/css/reset.css">
+    <!-- Favicon -->
+    <link rel="icon" href="/img/favicon.ico">
     
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="{{ title or metadata.title }}">
@@ -27,10 +27,12 @@
     
     <!-- Inline style to ensure no text decoration except links -->
     <style>
-      * { text-decoration: none !important; }
+      * { text-decoration: none !important; text-shadow: none !important; border-bottom: none !important; }
       a { text-decoration: underline !important; }
-      body a { color: var(--link-color); }
+      body a { color: #333333; }
+      body.dark-theme a { color: #dddddd !important; }
       .nav a, .site-title a, .tabs a, footer a, header a, .tag { text-decoration: none !important; }
+      [style*="border"] { border-color: #cccccc !important; }
     </style>
   </head>
   

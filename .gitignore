@@ -8,3 +8,7 @@ public/
 _multiconfig.yml
 .idea
 _site
+
+# Generated CSS files
+src/css/style.css
+src/css/style.css.map

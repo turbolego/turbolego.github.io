@@ -16,6 +16,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("js");
   eleventyConfig.addPassthroughCopy("./src/js");
   eleventyConfig.addPassthroughCopy("./src/img");
+  eleventyConfig.addPassthroughCopy("./src/favicon.ico"); // Add this line
   
   // Add plugins
   eleventyConfig.addPlugin(syntaxHighlight, {
