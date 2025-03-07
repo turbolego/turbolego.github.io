@@ -1,0 +1,14 @@
+---
+layout: base.njk
+title: Archive
+permalink: /blog/
+---
+<h1>Archive</h1>
+
+{% set postslist = collections.posts | default([]) %}
+
+{% if postslist.length %}
+  {% include "postslist.njk" %}
+{% else %}
+  <p>No posts found. Create your first post in <code>src/posts/</code> to get started!</p>
+{% endif %}

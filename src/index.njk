@@ -1,0 +1,14 @@
+---
+layout: base.njk
+title: Home
+---
+<h1>Latest Posts</h1>
+
+{% set postslist = collections.posts | default([]) | head(-5) %}
+
+{% if postslist.length %}
+  {% include "postslist.njk" %}
+  <p>More posts can be found in <a href="/blog/">the archive</a>.</p>
+{% else %}
+  <p>No posts found. Create your first post in <code>src/posts/</code> to get started!</p>
+{% endif %}

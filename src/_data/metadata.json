@@ -1,0 +1,19 @@
+{
+  "title": "Turbo Lego Blog",
+  "url": "https://turbolego.github.io",
+  "description": "Personal blog site",
+  "feed": {
+    "subtitle": "Personal blog site",
+    "filename": "feed.xml",
+    "path": "/feed/feed.xml",
+    "id": "https://turbolego.github.io/"
+  },
+  "jsonfeed": {
+    "path": "/feed/feed.json",
+    "url": "https://turbolego.github.io/feed/feed.json"
+  },
+  "author": {
+    "name": "Your Name",
+    "email": "your-email@example.com"
+  }
+}

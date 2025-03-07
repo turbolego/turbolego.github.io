@@ -1,26 +1,35 @@
 {
-  "name": "hexo-site",
-  "version": "0.0.0",
-  "private": true,
+  "name": "turbolego.github.io",
+  "version": "1.0.0",
+  "description": "Personal blog",
+  "main": "index.js",
   "scripts": {
-    "build": "hexo generate",
-    "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "debug": "DEBUG=* eleventy"
   },
-  "hexo": {
-    "version": "7.3.0"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/turbolego/turbolego.github.io.git"
   },
-  "dependencies": {
-    "hexo": "^7.3.0",
-    "hexo-generator-archive": "^2.0.0",
-    "hexo-generator-category": "^2.0.0",
-    "hexo-generator-index": "^4.0.0",
-    "hexo-generator-tag": "^2.0.0",
-    "hexo-renderer-ejs": "^2.0.0",
-    "hexo-renderer-marked": "^7.0.1",
-    "hexo-renderer-stylus": "^3.0.1",
-    "hexo-server": "^3.0.0",
-    "hexo-theme-landscape": "^1.1.0"
+  "keywords": [
+    "blog",
+    "eleventy",
+    "11ty"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/turbolego/turbolego.github.io/issues"
+  },
+  "homepage": "https://github.com/turbolego/turbolego.github.io#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1",
+    "@11ty/eleventy-navigation": "^0.3.5",
+    "@11ty/eleventy-plugin-rss": "^1.2.0",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+    "luxon": "^3.4.3",
+    "markdown-it": "^13.0.1",
+    "markdown-it-anchor": "^8.6.7"
   }
 }
