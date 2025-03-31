@@ -1,3 +1,17 @@
+---
+title: Guess The Song - Music Quiz Game
+date: 2025-03-31
+tags:
+  - app
+  - android
+  - ios
+  - music
+  - game
+description: Official homepage for the Guess The Song music quiz mobile application
+layout: post.njk
+permalink: /guess-the-song/
+---
+
 # Guess The Song - Music Quiz Game
 
 ![Guess The Song Logo](/assets/images/guess-the-song-logo.png)
