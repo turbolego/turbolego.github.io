@@ -2,9 +2,12 @@ const { DateTime } = require("luxon");
 const markdownIt = require("markdown-it");
 const markdownItAnchor = require("markdown-it-anchor");
 const CleanCSS = require("clean-css");
-const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight").default;
+const syntaxHighlightPkg = require("@11ty/eleventy-plugin-syntaxhighlight");
+const pluginRssPkg = require("@11ty/eleventy-plugin-rss");
 const htmlminifier = require("html-minifier-terser");
-const pluginRss = require("@11ty/eleventy-plugin-rss").default;
+
+const syntaxHighlight = syntaxHighlightPkg.default ?? syntaxHighlightPkg;
+const pluginRss = pluginRssPkg.default ?? pluginRssPkg;
 
 module.exports = function(eleventyConfig) {
   // Watch SASS directory for changes
@@ -19,9 +22,7 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/favicon.ico");
 
   // Add plugins
-  eleventyConfig.addPlugin(syntaxHighlight, {
-    preAttributes: { tabindex: 0 },
-  });
+  eleventyConfig.addPlugin(syntaxHighlight);
   eleventyConfig.addPlugin(pluginRss);
 
   // Prism and Chota define a tag class — replace .tag with .chip to avoid conflicts

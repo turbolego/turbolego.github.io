@@ -10,7 +10,7 @@
     "build:eleventy": "eleventy",
     "dev": "npm-run-all build:sass --parallel watch:*",
     "start": "npm run dev",
-    "build": "npm-run-all build:sass --parallel build:*",
+    "build": "npm-run-all build:sass build:eleventy",
     "clean": "node -e \"const fs = require('fs'); fs.rm('_site',{recursive: true, force: true}, () => fs.mkdir('_site', {recursive: true}, () => console.log('\"_site\" cleaned...')))\""
   },
   "repository": {
