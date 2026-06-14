@@ -40,6 +40,6 @@
     "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",
     "npm-run-all2": "^9.0.0",
-    "sass": "^1.99.0"
+    "sass": "^1.101.0"
   }
 }
