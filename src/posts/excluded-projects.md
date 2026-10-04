@@ -24,6 +24,8 @@ The following repositories exist under `turbolego` but will **not** receive indi
 | [`Personal-AI-Router`](https://github.com/turbolego/Personal-AI-Router) | [NVIDIA/Personal-AI-Router](https://github.com/NVIDIA/Personal-AI-Router) | Used as-is; no code changes |
 | [`axe-core`](https://github.com/turbolego/axe-core) | [dequelabs/axe-core](https://github.com/dequelabs/axe-core) | Only PR #5418 (case-sensitive aria attrs) — mentioned in wcag-skill post |
 
+> *Note: `freellmapi` and `hermes-agent` were removed from included-projects.md (posts deleted) and placed here because they are forks used only for PRs.*
+
 ## Simple Tools / Utilities (Low Novelty)
 
 | Repo | Reason |

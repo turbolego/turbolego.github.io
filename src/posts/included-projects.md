@@ -26,9 +26,7 @@ The following projects will each get **one** blog post, even if they span multip
 | **uustreak – WCAG Leaderboard** | `uustreak` | `uustreak-wcag-automation.md` | ✅ Committed |
 | **wcag-skill – AI Agent Accessibility** | `wcag-skill` | `wcag-skill-ai-agent.md` | ✅ Committed |
 | **Accessible Maps Norway** | `RullUt`, `Tilgjengelighet-WMS-OpenLayers` | `accessible-maps-norway.md` | ✅ Committed |
-| **HoloLens Suite** | `HololensAirplaneViewer`, `HololensGo`, `HololensIKEA`, `HololensSatelliteViewer`, `HololensHermes` | `hololens-suites.md` | ✅ Committed |
-| **freellmapi – Free LLM Fallback** | `freellmapi` | `freellmapi-fallback.md` | ✅ Committed |
-| **Hermes Agent Extensions** | `hermes-agent` | `hermes-agent-extensions.md` | ✅ Committed |
+| **HoloLens Vibecoded Apps (ChatGPT 2016)** | `HololensAirplaneViewer`, `HololensGo`, `HololensIKEA`, `HololensSatelliteViewer`, `HololensHermes` | `hololens-suites.md` | ✅ Committed |
 | **github-contrib-globe-badge** | `github-contrib-globe-badge` | `github-contrib-globe-badge.md` | ✅ Committed |
 | **Arendalsuka Multicam Stream** | `Arendalsuka-Multicam-Stream` | `arendalsuka-multicam.md` | ✅ Committed |
 
@@ -53,7 +51,7 @@ The following projects will each get **one** blog post, even if they span multip
 
 ## Summary
 
-- **9 posts committed** (ready to push)
+- **7 posts committed** (ready to push)
 - **~12 posts pending** (listed above)
 - **9 repos excluded** (see `excluded-projects.md`)
 
