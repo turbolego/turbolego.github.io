@@ -12,7 +12,10 @@ permalink: /included-projects/
 
 # Projects With Dedicated Blog Posts
 
-The following original (non-fork) repositories will each get a blog post.  
+The following projects will each get **one** blog post, even if they span multiple repositories.
+
+> Example: **iPad 2 Revival** combines `iPad2Spotify` + `OldMilk` into a single post.
+
 **Bold** = post already written and committed in `src/posts/`.
 
 ## ✅ Posts Already Written
