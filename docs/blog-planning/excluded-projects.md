@@ -40,10 +40,9 @@ The following repositories exist under `turbolego` but will **not** receive indi
 | Repo | Covered In |
 |------|------------|
 | `iPad2Spotify` + `OldMilk` | *Reviving an iPad 2…* |
-| `uustreak` | *Automating WCAG Audits…* |
-| `wcag-skill` | *Building an AI Agent Skill…* |
+| `uustreak` + `wcag-skill` | *Universal Design AI Systems* |
 | `RullUt` + `Tilgjengelighet-WMS-OpenLayers` | *Wheelchair-Accessible Routing…* |
-| `HololensAirplaneViewer` + `HololensGo` + `HololensIKEA` + `HololensSatelliteViewer` + `HololensHermes` | *Four HoloLens Prototypes…* |
+| `HololensAirplaneViewer` + `HololensGo` + `HololensIKEA` + `HololensSatelliteViewer` + `HololensHermes` | *HoloLens Vibecoded Apps (ChatGPT 2016)* |
 | `github-contrib-globe-badge` | *A 3D Globe Badge…* |
 | `Arendalsuka-Multicam-Stream` | *Live-Streaming Arendalsuka…* |
 

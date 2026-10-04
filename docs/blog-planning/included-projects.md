@@ -23,8 +23,7 @@ The following projects will each get **one** blog post, even if they span multip
 | Project | Repo(s) | Post File | Status |
 |---------|---------|-----------|--------|
 | **iPad 2 Revival** | `iPad2Spotify`, `OldMilk` | `ipad2spotify-oldmilk.md` | ✅ Committed |
-| **uustreak – WCAG Leaderboard** | `uustreak` | `uustreak-wcag-automation.md` | ✅ Committed |
-| **wcag-skill – AI Agent Accessibility** | `wcag-skill` | `wcag-skill-ai-agent.md` | ✅ Committed |
+| **Universal Design AI Systems** | `uustreak`, `wcag-skill` | `universal-design-ai-systems.md` | ✅ Committed |
 | **Accessible Maps Norway** | `RullUt`, `Tilgjengelighet-WMS-OpenLayers` | `accessible-maps-norway.md` | ✅ Committed |
 | **HoloLens Vibecoded Apps (ChatGPT 2016)** | `HololensAirplaneViewer`, `HololensGo`, `HololensIKEA`, `HololensSatelliteViewer`, `HololensHermes` | `hololens-suites.md` | ✅ Committed |
 | **github-contrib-globe-badge** | `github-contrib-globe-badge` | `github-contrib-globe-badge.md` | ✅ Committed |
@@ -51,7 +50,7 @@ The following projects will each get **one** blog post, even if they span multip
 
 ## Summary
 
-- **7 posts committed** (ready to push)
+- **6 posts committed** (ready to push)
 - **~12 posts pending** (listed above)
 - **9 repos excluded** (see `excluded-projects.md`)
 
