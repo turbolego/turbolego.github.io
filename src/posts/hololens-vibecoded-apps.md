@@ -18,20 +18,22 @@ permalink: /hololens-vibecoded-apps/
 
 ## The Premise
 
-**2016**: Microsoft releases HoloLens 1 — the first standalone mixed-reality headset.  
+**2016**: Microsoft releases HoloLens 1 — the first standalone mixed-reality headset.
 **2016 (alternate timeline)**: ChatGPT is released the same year.
 
 What would developers build with AI-assisted coding on day one? This project explores that question by building **five HoloLens prototypes** using Hermes AI agents as coding assistants.
+
+> All apps are UWP Direct3D11 / SharpDX, no Unity, x86 for HoloLens 1. CI builds signed `.appxupload` artifacts via GitHub Actions.
 
 ## The Five Apps
 
 | App | Repo | Description |
 |-----|------|-------------|
-| **Airplane Viewer** | `HololensAirplaneViewer` | Live aircraft in your room (ADS-B Exchange API) |
-| **Satellite Viewer** | `HololensSatelliteViewer` | Satellites orbiting Earth in your space (CelesTrak TLE) |
-| **IKEA Preview** | `HololensIKEA` | Preview IKEA furniture at 1:1 scale in your living room |
-| **GO Navigation** | `HololensGo` | AR navigation with OpenStreetMap + OSRM |
-| **Hermes Integration** | `HololensHermes` | Hermes AI agent running on HoloLens for voice commands |
+| **Airplane Viewer** | `HololensAirplaneViewer` | Live ADS-B aircraft in a dome above you, OpenSky Network, GPS→local mapping |
+| **Satellite Viewer** | `HololensSatelliteViewer` | Real-time TLE satellites from CelesTrak, SGP4 propagation, dome visualization |
+| **IKEA Preview** | `HololensIKEA` | Runtime GLB download from IKEA, Draco decompression, movable holograms |
+| **GO Navigation** | `HololensGo` | Pokémon Go inspired — throw potatoes at Steamboat Willie Mickey, procedural models |
+| **Hermes Integration** | `HololensHermes` | Indoor spatial assistant connected to Hermes via Telegram, world-locked floor plans |
 
 ---
 
@@ -55,10 +57,20 @@ All five share:
 
 **Goal**: See live aircraft in your room at 1:1 scale.
 
-- Data source: ADS-B Exchange API (real-time flight positions)
-- Rendering: Unity + MRTK, aircraft models scaled 1:1
-- Interaction: Pinch to follow a specific flight, voice command "show Lufthansa 452"
-- Hermes: "Find all flights from Oslo to Bergen" → filters & highlights
+- Data source: OpenSky Network ADS-B state vectors, fetched every 10s
+- GPS: HoloLens Geolocator provides device location (no GPS chip on HoloLens 1)
+- Mapping: WGS-84 lat/lon/alt → local world coordinates via planar approximation
+- Rendering: Direct3D 11 holographic pipeline draws colour-coded cubes with labels, 0.4 m to the ceiling
+- Info panel: floating text with GPS, ICAO, callsign, altitude, relative X/Z
+
+**Screenshot:** `https://github.com/user-attachments/assets/76901ffe-6f87-40e6-901e-94453c87e4f7`
+
+**Repo highlights:**
+- `AirplaneRenderer.cs` — holographic cube + bitmap glyph text
+- `HolographicPositioning.cs` — lat/lon/alt to world
+- `AirplaneService.cs` — OpenSky HTTP client
+- CI: dotnet.yml, dotnet-desktop.yml, store-submission.yml
+- Deploy: `deploy.ps1` via WinAppDeployCmd
 
 ---
 
@@ -66,43 +78,76 @@ All five share:
 
 **Goal**: Visualize satellites orbiting Earth in your space.
 
-- Data source: CelesTrak TLE feeds, SGP4 propagation
-- Rendering: Low-poly Earth sphere, satellite paths as holographic wires
-- Feature: Time scrubbing — see where satellites were/will be
-- Hermes: "Show me Starlink satellites passing over Norway in next hour"
+- Data source: CelesTrak TLEs, fetched every second
+- Orbit propagation: SGP4 topocentric azimuth/elevation/range
+- Rendering: Direct3D 11, coloured cubes in dome, 0.4 m to ceiling
+- Info panel: GPS, TLE stats, name, azimuth, elevation, relative position
+
+**Repo highlights:**
+- `SatelliteRenderer.cs` — holographic satellite cube + text
+- `OrbitService.cs` + `Sgp4Service.cs` — TLE fetch & propagation
+- CI Store pipeline, signed `.appxupload` artifact
+
+---
 
 ---
 
 ## 3. HololensIKEA
 
-**Goal**: Preview IKEA furniture in your living room with accurate scale.
+**Goal**: Preview IKEA furniture at 1:1 scale in your living room.
 
-- Data source: IKEA API (planned) → manual model import for prototype
-- Calibration: Use HoloLens spatial mapping to find floor plane
-- Interaction: Grab handles, scale, rotate, "add to cart"
-- Hermes: "Find a bookshelf that fits this 80cm corner"
+- Unofficial educational hobby project, not affiliated with IKEA
+- Runtime downloads: extracts 8-digit IKEA article number from bookmark URL, resolves Rotera static model URL, downloads GLB over HTTPS
+- Draco: `KHR_draco_mesh_compression` decoded in memory on HoloLens x86 via native `draco_tiny_dec.dll`
+- Manipulation: gaze-sensitive move/rotate handles + command bar
+
+**Repo highlights:**
+- `ModelService3D.cs` — IKEA URL resolution, GLB download & parse
+- `DracoDecoder.cs` — in-memory Draco decompression
+- `GltfMeshRenderer.cs` — Direct3D 11 mesh upload
+- `ProductManipulationHandles.cs` — move/rotate/delete UI
+- `.github/workflows/update-bookmarks.yml` — scheduled bookmark discovery
+- Disclaimer: models never written to repo, only downloaded at runtime
+
+---
 
 ---
 
 ## 4. HololensGo
 
-**Goal**: AR navigation using OpenStreetMap data.
+**Goal**: Pokémon Go inspired game for HoloLens 1.
 
-- Route calculation: OSRM locally on Pi
-- Holographic arrows anchored to physical world
-- Audio cues for turns
-- Hermes: "Navigate to nearest coffee shop, avoid stairs"
+- Procedurally generated Steamboat Willie Mickey Mouse spawns 1.5 m in front of user
+- Throw potatoes via air-tap gesture, clicker remote, or controller
+- Physics: semi-implicit gravity, floor bounce, lateral friction, damping
+- Collision: swept segment-versus-sphere (0.15 m radius)
+- GameSession owns score, combo, projectile budget, deterministic simulation
+
+**Repo highlights:**
+- `Main.cs` — fixed-step game loop
+- Tests for projectile & session rules
+- `ITERATIONS.md` — 100-cycle gameplay iteration register
+
+---
 
 ---
 
 ## 5. HololensHermes
 
-**Goal**: Hermes AI agent running locally on HoloLens 1.
+**Goal**: Indoor spatial assistant for HoloLens 1 connected to Hermes via Telegram.
 
-- Quantized model (4-bit) on Snapdragon 850
-- Voice-only interaction (no keyboard)
-- Skills: spatial reasoning, device control, web search
-- Demo: "Hermes, create a holographic todo list on that wall"
+- Floor plan: PNG loaded as texture, scaled to real meters via multi-point calibration
+- Spatial mapping: `SpatialSurfaceObserver` keeps room mesh up to date
+- Targets: Hermes API resolves goal ("find philosophy section") → floor-plan position → `SpatialAnchor` + pulsing marker
+- Compass: IMU magnetometer rotates floor plan + arrow with north
+- Telegram credentials stored in Windows Credential Vault
+
+**Repo highlights:**
+- `HermesApiService` — HTTPS calls to Hermes backend
+- `FloorPlanCalibration` — affine transform from pixels → world meters
+- Telegram Bot API integration for goal-directed navigation
+
+---
 
 ---
 
