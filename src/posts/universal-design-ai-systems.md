@@ -17,8 +17,6 @@ permalink: /universal-design-ai-systems/
 
 # Universal Design AI Systems: Automating WCAG Audits & Fixing Violations with AI Agents
 
-![Universal Design AI Systems architecture](/assets/images/universal-design-ai-arch.png)
-
 ## The Vision
 
 **Universal Design** (universell utforming) means building digital products that work for everyone. In Norway, it's the law. But manual accessibility audits don't scale — 400+ municipalities, each with dozens of websites.

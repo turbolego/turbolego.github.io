@@ -15,8 +15,6 @@ permalink: /accessible-maps-norway/
 
 # Wheelchair-Accessible Routing with Geonorge WMS Layers & OpenLayers
 
-![accessible map preview](/assets/images/rullut-map.png)
-
 ## Problem
 
 Norwegian public mapping (Kartverket) provides WMS layers for accessibility obstacles — stairs, curbs, slopes > 6%. But no user-friendly way to visualize them for wheelchair users.

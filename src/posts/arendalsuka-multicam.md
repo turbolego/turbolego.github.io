@@ -15,8 +15,6 @@ permalink: /arendalsuka-multicam/
 
 # Live-Streaming Arendalsuka 2024 to Facebook & LinkedIn Simultaneously
 
-![Arendalsuka streaming setup](/assets/images/arendalsuka-setup.jpg)
-
 ## Challenge
 
 **Arendalsuka** (Norway's largest political week) 2024 needed:

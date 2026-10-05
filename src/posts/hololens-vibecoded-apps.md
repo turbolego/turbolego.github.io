@@ -16,8 +16,6 @@ permalink: /hololens-vibecoded-apps/
 
 # HoloLens Vibecoded Apps: What If ChatGPT Was Released in 2016?
 
-![HoloLens prototypes collage](/assets/images/hololens-collage.png)
-
 ## The Premise
 
 **2016**: Microsoft releases HoloLens 1 — the first standalone mixed-reality headset.  

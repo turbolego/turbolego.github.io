@@ -14,8 +14,6 @@ permalink: /github-contrib-globe-badge/
 
 # A 3D Globe Badge for Your GitHub Profile Contributions
 
-![globe badge demo](/assets/images/globe-badge-demo.gif)
-
 ## Inspiration
 
 GitHub contribution graphs are flat. Why not make them spin?

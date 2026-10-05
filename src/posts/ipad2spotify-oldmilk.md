@@ -15,7 +15,7 @@ permalink: /ipad2spotify-oldmilk/
 
 # Reviving an iPad 2 as a Spotify Controller with a Milkdrop Visualizer
 
-![iPad2Spotify + OldMilk](/assets/images/ipad2spotify-demo.png)
+<!-- TODO: Add screenshot of iPad 2 running the visualizer at /assets/images/ipad2spotify-demo.png -->
 
 ## The Problem
 
@@ -101,10 +101,6 @@ vercel --prod
 Both deploy to `*.vercel.app` subdomains. iPad 2 Safari bookmarks the visualizer URL to home screen for "app-like" experience.
 
 ## Result
-
-<div class="video-container">
-  <video controls src="/assets/videos/ipad2spotify-demo.mp4" poster="/assets/images/ipad2spotify-poster.jpg"></video>
-</div>
 
 The iPad 2 has been running 24/7 on a wall mount for 6 months — zero crashes, ~2% battery drain per day (always plugged in).
 
