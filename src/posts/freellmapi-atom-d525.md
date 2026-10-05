@@ -20,36 +20,83 @@ Running a LLM router on a 2009 netbook. It works.
 **Repo:** https://github.com/turbolego/freellmapi  
 Fork of FreeLLMAPI – 34 free providers, 635 free model endpoints, OpenAI-compatible `/v1`
 
-## Hardware
+## Hardware and Goal
 
 * Intel Atom D525 Dual-core 1.8 GHz
 * No SSE4.1/4.2, no AVX, no AES-NI
 * 2 GB RAM total
 * Debian-based, SSH only
 
-Goal: freellmapi as fallback proxy for Hermes at `localhost:3001`. Forever-free tiers only. Run as non-root user `hermes`.
+Goal: run freellmapi as a fallback proxy for Hermes at `localhost:3001`. Forever-free tiers only. Run as non-root user `hermes`.
 
-## Ownership reset hermes:hermes
+## Step-by-step Installation Guide
+
+### Step 1 – Prepare the system
+
+Update packages and install Node.js 20+:
+
+```bash
+sudo apt update
+sudo apt install -y curl git nodejs npm ca-certificates
+node --version  # v20.x or newer required
+npm --version
+```
+
+Create the non-root user:
+
+```bash
+sudo useradd -m -s /bin/bash hermes || true
+```
+
+### Step 2 – Clone and reset ownership
 
 ```bash
 sudo -u hermes -i
-cd ~/freellmapi
+cd ~/
+git clone https://github.com/turbolego/freellmapi-atom-d525.git freellmapi
+cd freellmapi
 rm -rf node_modules package-lock.json
 chown -R hermes:hermes ~/freellmapi
-npm ci --omit=dev --no-audit --no-fund
-NODE_OPTIONS=--max-old-space-size=384 node server.js
 ```
 
-Health check:
+This removes any previous build artifacts and ensures ownership is correct.
+
+### Step 3 – Install dependencies
+
+Install production dependencies only. Atom D525 has limited CPU/RAM, so skip dev packages and audits.
+
+```bash
+npm ci --omit=dev --no-audit --no-fund
+```
+
+### Step 4 – Set environment for constrained hardware
+
+```bash
+export NODE_OPTIONS=--max-old-space-size=384
+export NODE_ENV=production
+export PORT=3001
+```
+
+`NODE_OPTIONS=--max-old-space-size=384` caps V8 heap to 384 MB to stay inside the 2 GB RAM budget.
+
+### Step 5 – Test manually
+
+```bash
+node server.js
+```
+
+In another terminal, health check:
 
 ```bash
 curl -s http://localhost:3001/v1/models | jq '.data | length'
 curl -s http://localhost:3001/health
 ```
 
-## Systemd with memory limits
+You should see a model count and a JSON health response.
 
-`/etc/systemd/system/freellmapi.service`
+### Step 6 – Create systemd service with memory limits
+
+Create `/etc/systemd/system/freellmapi.service`:
 
 ```ini
 [Unit]
@@ -80,13 +127,17 @@ ReadWritePaths=/var/lib/hermes/freellmapi
 WantedBy=multi-user.target
 ```
 
+Enable and start:
+
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now freellmapi.service
 systemctl status freellmapi
 ```
 
-## Hermes fallback
+### Step 7 – Configure Hermes fallback
+
+In Hermes, set provider:
 
 Provider: `http://localhost:3001/v1`
 Model: `auto`
@@ -99,14 +150,14 @@ curl -s -X POST http://localhost:3001/v1/chat/completions \
   -d '{"model":"auto","messages":[{"role":"user","content":"ping"}]}' | jq .choices[0].message.content
 ```
 
-## Free-tier discipline
+### Step 8 – Free-tier discipline
 
 * Forever-free tiers only
 * Router picks best available model, auto failover on rate-limit
 * Per-key usage tracking, encrypted keys
 * Cut dead/non-free providers decisively
 
-## Monitoring on 2GB
+### Step 9 – Monitoring on 2GB
 
 ```bash
 ps -o pid,rss,cmd -C node
@@ -115,7 +166,7 @@ systemctl show freellmapi --property=MemoryCurrent
 
 Keep RSS <400 MB, heap <384 MB.
 
-## Security
+### Step 10 – Security
 
 Run as hermes:hermes, never root. Tailscale only. Weekly `npm audit`. Security audit priority.
 
@@ -123,7 +174,7 @@ Result: one OpenAI-compatible endpoint, 34 free providers, stable on Atom D525, 
 
 ## Changes vs upstream tashfeenahmed/freellmapi
 
-This fork currently differs from upstream in documentation only. The approach demonstrates how to tune a FreeLLMAPI fork for constrained hardware.
+This fork differs from upstream in documentation only. The approach demonstrates how to tune FreeLLMAPI for constrained hardware.
 
 | File | Change | Reason |
 |------|--------|--------|
@@ -157,81 +208,6 @@ Changes vs upstream:
 - Dashboard dark mode default, minimal UI
 - Forever-free tiers only, dead/non-free providers pruned
 
-See the full README for details: https://github.com/turbolego/freellmapi-atom-d525
-
 Links
 * Repo: https://github.com/turbolego/freellmapi
 * Dashboard: https://freellmapi.co
-## Build freellmapi from source for Atom D525
-
-Build from source on Atom D525 requires no native compilation. FreeLLMAPI is pure Node.js.
-
-1. **Install prerequisites** (Debian/Ubuntu)
-
-```bash
-sudo apt update
-sudo apt install -y curl git nodejs npm ca-certificates
-```
-
-Node 20+ is required. Verify:
-
-```bash
-node --version  # v20.x or newer
-npm --version
-```
-
-2. **Clone and ownership reset as hermes**
-
-```bash
-sudo useradd -m -s /bin/bash hermes || true
-sudo -u hermes -i
-cd ~/
-git clone https://github.com/turbolego/freellmapi-atom-d525.git freellmapi
-cd freellmapi
-rm -rf node_modules package-lock.json
-chown -R hermes:hermes ~/freellmapi
-```
-
-3. **Install dependencies without dev packages**
-
-```bash
-npm ci --omit=dev --no-audit --no-fund
-```
-
-Atom D525 has limited CPU and RAM — avoid watch mode, native builds, and heavy scripts.
-
-4. **Set environment for constrained hardware**
-
-```bash
-export NODE_OPTIONS=--max-old-space-size=384
-export NODE_ENV=production
-export PORT=3001
-```
-
-5. **Run manually for testing**
-
-```bash
-node server.js
-```
-
-Health checks:
-
-```bash
-curl -s http://localhost:3001/v1/models | jq '.data | length'
-curl -s http://localhost:3001/health
-```
-
-6. **Install as systemd service** (see Systemd with memory limits above)
-
-Copy the service file from this page to `/etc/systemd/system/freellmapi.service` and enable.
-
-7. **Optional: prune providers for forever-free tiers**
-
-Edit `server/src/config/providers.ts` or use the dashboard **Keys** page to keep only forever-free providers. Remove heavy media providers on 2GB RAM.
-
-8. **Catalog sync**
-
-Free installs sync catalog from freellmapi.co twice daily. On Atom D525, throttle to monthly snapshot to reduce background work. Set in dashboard or env.
-
-Result: pure Node.js build, no native compilation, <400 MB RSS, OpenAI-compatible endpoint for Hermes.
-
