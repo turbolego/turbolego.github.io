@@ -162,3 +162,76 @@ See the full README for details: https://github.com/turbolego/freellmapi-atom-d5
 Links
 * Repo: https://github.com/turbolego/freellmapi
 * Dashboard: https://freellmapi.co
+## Build freellmapi from source for Atom D525
+
+Build from source on Atom D525 requires no native compilation. FreeLLMAPI is pure Node.js.
+
+1. **Install prerequisites** (Debian/Ubuntu)
+
+```bash
+sudo apt update
+sudo apt install -y curl git nodejs npm ca-certificates
+```
+
+Node 20+ is required. Verify:
+
+```bash
+node --version  # v20.x or newer
+npm --version
+```
+
+2. **Clone and ownership reset as hermes**
+
+```bash
+sudo useradd -m -s /bin/bash hermes || true
+sudo -u hermes -i
+cd ~/
+git clone https://github.com/turbolego/freellmapi-atom-d525.git freellmapi
+cd freellmapi
+rm -rf node_modules package-lock.json
+chown -R hermes:hermes ~/freellmapi
+```
+
+3. **Install dependencies without dev packages**
+
+```bash
+npm ci --omit=dev --no-audit --no-fund
+```
+
+Atom D525 has limited CPU and RAM — avoid watch mode, native builds, and heavy scripts.
+
+4. **Set environment for constrained hardware**
+
+```bash
+export NODE_OPTIONS=--max-old-space-size=384
+export NODE_ENV=production
+export PORT=3001
+```
+
+5. **Run manually for testing**
+
+```bash
+node server.js
+```
+
+Health checks:
+
+```bash
+curl -s http://localhost:3001/v1/models | jq '.data | length'
+curl -s http://localhost:3001/health
+```
+
+6. **Install as systemd service** (see Systemd with memory limits above)
+
+Copy the service file from this page to `/etc/systemd/system/freellmapi.service` and enable.
+
+7. **Optional: prune providers for forever-free tiers**
+
+Edit `server/src/config/providers.ts` or use the dashboard **Keys** page to keep only forever-free providers. Remove heavy media providers on 2GB RAM.
+
+8. **Catalog sync**
+
+Free installs sync catalog from freellmapi.co twice daily. On Atom D525, throttle to monthly snapshot to reduce background work. Set in dashboard or env.
+
+Result: pure Node.js build, no native compilation, <400 MB RSS, OpenAI-compatible endpoint for Hermes.
+
