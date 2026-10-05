@@ -1,6 +1,6 @@
 ---
 title: "Universal Design AI Systems: Automating WCAG Audits & Fixing Violations with AI Agents"
-date: 2025-01-15
+date: 2026-10-05
 tags:
   - accessibility
   - wcag

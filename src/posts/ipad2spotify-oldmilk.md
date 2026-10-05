@@ -1,6 +1,6 @@
 ---
 title: "Reviving an iPad 2 as a Spotify Controller with a Milkdrop Visualizer"
-date: 2024-10-01
+date: 2026-10-05
 tags:
   - hardware
   - ios

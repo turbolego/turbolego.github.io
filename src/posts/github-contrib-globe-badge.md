@@ -1,6 +1,6 @@
 ---
 title: "A 3D Globe Badge for Your GitHub Profile Contributions"
-date: 2025-06-20
+date: 2026-10-05
 tags:
   - github
   - badge

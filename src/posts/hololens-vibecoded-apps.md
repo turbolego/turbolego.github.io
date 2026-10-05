@@ -1,6 +1,6 @@
 ---
 title: "HoloLens Vibecoded Apps: What If ChatGPT Was Released in 2016?"
-date: 2025-07-10
+date: 2026-10-05
 tags:
   - hololens
   - mixed-reality

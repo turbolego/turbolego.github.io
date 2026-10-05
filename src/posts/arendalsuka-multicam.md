@@ -1,6 +1,6 @@
 ---
 title: "Live-Streaming Arendalsuka 2024 to Facebook & LinkedIn Simultaneously"
-date: 2024-08-13
+date: 2026-10-05
 tags:
   - streaming
   - multicam

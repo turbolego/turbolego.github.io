@@ -1,6 +1,6 @@
 ---
 title: "Wheelchair-Accessible Routing with Geonorge WMS Layers & OpenLayers"
-date: 2025-03-12
+date: 2026-10-05
 tags:
   - accessibility
   - maps
