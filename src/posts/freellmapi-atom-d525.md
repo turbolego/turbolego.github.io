@@ -166,6 +166,41 @@ systemctl show freellmapi --property=MemoryCurrent
 
 Keep RSS <400 MB, heap <384 MB.
 
+### Step 9.5 – Performance Metrics
+
+After running for a while, you can check the performance of freellmapi on the Atom D525. Below are sample metrics from a system running for over two weeks:
+
+| Metric | Value |
+|--------|-------|
+| Resident Set Size (RSS) | ~142 MB |
+| Heap limit (NODE_OPTIONS) | 384 MB |
+| MemoryMax (systemd) | 256 MB (effective) |
+| MemoryHigh (systemd) | 384 MB |
+| MemoryLow (systemd) | 128 MB |
+| CPUQuota | 80% |
+| Uptime | 2 weeks 3 days |
+| Total CPU time | 1h 52m |
+
+You can get current metrics with:
+
+```bash
+# Check memory usage
+ps -o pid,rss,cmd -C node
+systemctl show freellmapi --property=MemoryCurrent,MemoryMax
+
+# Check service status for detailed stats
+systemctl status freellmapi
+
+# Check CPU time
+grep 'CPU:' /proc/$(pgrep -f node)/stat 2>/dev/null || echo 'Use ps -o cputime -C node'
+
+# Or simpler:
+ps -o pid,pcpu,pmem,etime,cmd -C node
+```
+
+Note: Actual numbers will vary based on workload, number of providers, and request volume.
+
+
 ### Step 10 – Security
 
 Run as hermes:hermes, never root. Tailscale only. Weekly `npm audit`. Security audit priority.
