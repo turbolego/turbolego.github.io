@@ -1,5 +1,19 @@
 ---
+title: "Reviving an iPad 2 as a Spotify Controller with a Milkdrop Visualizer"
+date: 2026-10-05
+tags:
+  - hardware
+  - ios
+  - spotify
+  - webgl
+  - redis
+  - vercel
+description: "How I turned an old iPad 2 into a dedicated Spotify controller with a beautiful Milkdrop-inspired WebGL visualizer using Redis, WebAMP, and Vercel."
+layout: post.njk
+permalink: /ipad2spotify-oldmilk/
+---
 
+# Reviving an iPad 2 as a Spotify Controller with a Milkdrop Visualizer
 
 <!-- TODO: Add screenshot of iPad 2 running the visualizer at /assets/images/ipad2spotify-demo.png -->
 

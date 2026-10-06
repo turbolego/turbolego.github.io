@@ -1,5 +1,18 @@
 ---
+title: "A 3D Globe Badge for Your GitHub Profile Contributions"
+date: 2026-10-05
+tags:
+  - github
+  - badge
+  - webgl
+  - cobe
+  - javascript
+description: "github-contrib-globe-badge: a lightweight 3D globe visualization of your GitHub contributions using shuding/cobe, deployed as a GitHub Pages badge."
+layout: post.njk
+permalink: /github-contrib-globe-badge/
+---
 
+# A 3D Globe Badge for Your GitHub Profile Contributions
 
 ## Inspiration
 

@@ -1,5 +1,15 @@
 ---
+title: Welcome to My Eleventy Blog
+date: 2025-03-07
+tags:
+  - documentation
+  - eleventy
+  - 11ty
+description: An overview of this Eleventy-powered blog workspace
+layout: post.njk
+---
 
+# Welcome to My Eleventy Blog
 
 This is a static site blog built with [Eleventy (11ty)](https://www.11ty.dev/), a simpler static site generator. This post provides an overview of the project structure and how to work with it.
 
