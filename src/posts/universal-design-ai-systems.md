@@ -54,10 +54,28 @@ Launched at **ODIN 2025** (Norwegian Agency for Public Management and eGovernmen
                            └─────────┬──────────┘
                                      ▼
                             ┌─────────────────┐
-                            │  PostgreSQL     │
-                            │  + GitHub Pages │
+                            │  JSON files     │
+                            │  (violations-   │
+                            │   *.json,       │
+                            │   streak-index, │
+                            │   report-list)  │
+                            └─────────────────┘
+                                     ▼
+                            ┌─────────────────┐
+                            │  Git commits    │
+                            │  (gh-pages      │
+                            │   branch)       │
+                            └─────────────────┘
+                                     ▼
+                            ┌─────────────────┐
+                            │  GitHub Pages   │
+                            │  (static hosting│
+                            │   + versioned   │
+                            │   history)      │
                             └─────────────────┘
 ```
+
+**Data flow**: Playwright/axe-core writes JSON reports → GitHub Actions commits them to the `gh-pages` branch → GitHub Pages serves them as a static, versioned API → Frontend dashboards fetch via `fetch()`.
 
 ### GitHub Actions Workflow
 

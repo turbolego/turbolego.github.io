@@ -17,10 +17,26 @@
                            └─────────┬──────────┘
                                      ▼
                             ┌─────────────────┐
-                            │  PostgreSQL     │
-                            │  + GitHub Pages │
+                            │  JSON files     │
+                            │  (violations-   │
+                            │   *.json,       │
+                            │   streak-index, │
+                            │   report-list)  │
                             └─────────────────┘
-</code></pre><h3 id="github-actions-workflow" tabindex="-1">GitHub Actions Workflow</h3><pre class="language-yaml"><code class="language-yaml"><span class="token comment"># .github/workflows/audit.yml</span>
+                                     ▼
+                            ┌─────────────────┐
+                            │  Git commits    │
+                            │  (gh-pages      │
+                            │   branch)       │
+                            └─────────────────┘
+                                     ▼
+                            ┌─────────────────┐
+                            │  GitHub Pages   │
+                            │  (static hosting│
+                            │   + versioned   │
+                            │   history)      │
+                            └─────────────────┘
+</code></pre><p><strong>Data flow</strong>: Playwright/axe-core writes JSON reports → GitHub Actions commits them to the <code>gh-pages</code> branch → GitHub Pages serves them as a static, versioned API → Frontend dashboards fetch via <code>fetch()</code>.</p><h3 id="github-actions-workflow" tabindex="-1">GitHub Actions Workflow</h3><pre class="language-yaml"><code class="language-yaml"><span class="token comment"># .github/workflows/audit.yml</span>
 <span class="token key atrule">name</span><span class="token punctuation">:</span> WCAG Audit
 <span class="token key atrule">on</span><span class="token punctuation">:</span>
   <span class="token key atrule">schedule</span><span class="token punctuation">:</span>
