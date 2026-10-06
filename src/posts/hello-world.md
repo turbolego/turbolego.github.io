@@ -7,6 +7,7 @@ tags:
   - 11ty
 description: An overview of this Eleventy-powered blog workspace
 layout: post.njk
+permalink: /hello-world/
 ---
 
 # Welcome to My Eleventy Blog
@@ -46,6 +47,7 @@ tags:
   - tag2
 description: Brief description of your post
 layout: post.njk
+permalink: /hello-world/
 ---
 ```
 
