@@ -8,7 +8,7 @@ tags:
   - atom
   - proxy
   - open-source
-description: "Running FreeLLMAPI fork on an Intel Atom D525 2GB RAM laptop as a forever-free LLM fallback proxy for Hermes with hermes:hermes ownership and systemd memory limits."
+description: "Running FreeLLMAPI on an Intel Atom D525 2GB RAM laptop as a forever-free LLM fallback proxy for Hermes with hermes:hermes ownership and systemd memory limits."
 layout: post.njk
 permalink: /freellmapi-atom-d525/
 ---
@@ -18,7 +18,7 @@ permalink: /freellmapi-atom-d525/
 Running a LLM router on a 2009 netbook. It works.
 
 **Repo:** https://github.com/turbolego/freellmapi  
-Fork of FreeLLMAPI – 34 free providers, 635 free model endpoints, OpenAI-compatible `/v1`
+FreeLLMAPI – 34 free providers, 635 free model endpoints, OpenAI-compatible `/v1`
 
 ## Hardware and Goal
 
@@ -172,39 +172,7 @@ Run as hermes:hermes, never root. Tailscale only. Weekly `npm audit`. Security a
 
 Result: one OpenAI-compatible endpoint, 34 free providers, stable on Atom D525, non-root, reproducible.
 
-This fork differs from upstream in documentation only. The approach demonstrates how to tune FreeLLMAPI for constrained hardware.
-
-| File | Change | Reason |
-|------|--------|--------|
-| `README.md` | Added Atom D525 edition banner and fork notes at top | Clarify hardware target, non-root install, memory limits, and deployment guide |
-| `README.md` | Added “Changes vs upstream” table and tuning example | Document how to adapt FreeLLMAPI for specific CPU/RAM constraints |
-| *(no code changes yet)* | - | Core code remains upstream; tuning is via systemd, env vars, and provider pruning |
-
-### Using this fork as a tuning template
-
-To adapt FreeLLMAPI for a specific CPU:
-
-1. **Ownership & reinstall** – `rm -rf node_modules && chown -R user:user && npm ci --omit=dev`
-2. **Memory caps** – systemd `MemoryMax=512M`, `MemoryHigh=384M`, `NODE_OPTIONS=--max-old-space-size=384`
-3. **CPU flags** – avoid native builds, Node 20+ only, no AVX paths
-4. **Catalog sync** – throttle to monthly snapshot to reduce background work
-5. **Provider pruning** – keep forever-free tiers only, remove heavy media providers
-6. **UI** – dark mode default, minimal UI to reduce JS heap
-
-These steps keep RSS <400 MB on Atom D525 with 2 GB RAM while retaining OpenAI-compatible routing for Hermes.
-
-## Atom D525 2GB RAM fork – what changed
-
-This fork is tuned for an Intel Atom D525 dual-core 1.8 GHz, no SSE4.1/4.2/AVX/AES-NI, 2 GB RAM.
-
-Changes vs upstream:
-- Non-root install as user `hermes`: delete node_modules, reinstall, ownership hermes:hermes
-- Systemd unit with MemoryMax=512M, MemoryHigh=384M, MemoryLow=128M, CPUQuota=80%
-- NODE_OPTIONS=--max-old-space-size=384
-- No native builds, no AVX code paths, Node 20+ only
-- Router catalog sync throttled to monthly snapshot by default
-- Dashboard dark mode default, minimal UI
-- Forever-free tiers only, dead/non-free providers pruned
+This document shows how to run FreeLLMAPI on Intel Atom D525 2GB RAM as a non-root hermes:hermes fallback proxy for Hermes with systemd memory limits.
 
 Links
 * Repo: https://github.com/turbolego/freellmapi
