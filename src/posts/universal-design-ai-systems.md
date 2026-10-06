@@ -19,6 +19,9 @@ permalink: /universal-design-ai-systems/
 
 **Universal Design** (universell utforming) means building digital products that work for everyone. In Norway, it's the law. But manual accessibility audits don't scale — 400+ municipalities, each with dozens of websites.
 
+
+![UUStreak - WCAG Accessibility Leaderboard](/assets/images/uustreak/uustreak.png)
+
 Two projects solve this together:
 
 | Project | Repo | Role |

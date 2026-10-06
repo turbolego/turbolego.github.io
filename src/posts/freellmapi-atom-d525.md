@@ -18,6 +18,13 @@ Running a LLM router on a 2009 netbook. It works.
 **Repo:** https://github.com/turbolego/freellmapi  
 FreeLLMAPI – 34 free providers, 635 free model endpoints, OpenAI-compatible `/v1`
 
+
+![FreeLLMAPI dashboard — Models page with the monthly token budget](/assets/images/freellmapi/github-hero.png)
+
+![The free tier, stacked](/assets/images/freellmapi/free-tier.png)
+
+![Feature overview](/assets/images/freellmapi/features.png)
+
 ## Hardware and Goal
 
 * Intel Atom D525 Dual-core 1.8 GHz
