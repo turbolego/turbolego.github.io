@@ -13,8 +13,6 @@ layout: post.njk
 permalink: /freellmapi-atom-d525/
 ---
 
-# FreeLLMAPI on Intel Atom D525 2GB RAM – Forever-Free LLM Fallback for Hermes
-
 Running a LLM router on a 2009 netbook. It works.
 
 **Repo:** https://github.com/turbolego/freellmapi  
