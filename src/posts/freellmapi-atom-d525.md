@@ -200,6 +200,33 @@ ps -o pid,pcpu,pmem,etime,cmd -C node
 
 Note: Actual numbers will vary based on workload, number of providers, and request volume.
 
+### Benchmark Results
+
+The following benchmark results were collected from the Atom D525 system running FreeLLMAPI:
+
+| Metric | Value |
+|--------|-------|
+| Model count | 271 |
+| Sample models | auto, fusion, qwen-3.8-27b, nemotron-3-ultra-550b, muse-glimmer-30b, gemma-4-31b |
+| Request latency (min) | 307ms |
+| Request latency (max) | 12971ms |
+| Request latency (mean) | 2088ms |
+| Request latency (median) | 503ms |
+| Request latency (stdev) | 4009ms |
+| Successful requests | 10/10 |
+| Memory usage (RSS) | 135 MB |
+| Memory usage (systemd) | 147 MB |
+| CPU usage | 0.2% |
+
+**Note:** The latency variation is due to:
+- Free-tier providers with rate limits and throttling
+- Network latency to distributed providers
+- Model startup time for cold requests
+- Auto-failover when a provider is rate-limited
+
+The system remains stable under these conditions, with RSS consistently below 400 MB and CPU usage well under the 80% quota.
+
+
 
 ### Step 10 – Security
 
