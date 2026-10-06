@@ -1,20 +1,5 @@
 ---
-title: "HoloLens Vibecoded Apps: What If ChatGPT Was Released in 2016?"
-date: 2026-10-05
-tags:
-  - hololens
-  - mixed-reality
-  - uwp
-  - csharp
-  - holograms
-  - ai-agents
-  - hermes-agent
-description: "Exploring vibecoded apps for the Microsoft HoloLens 1 using Hermes AI agents — airplane viewer, satellite viewer, IKEA furniture preview, GO navigation, and Hermes integration."
-layout: post.njk
-permalink: /hololens-vibecoded-apps/
----
 
-# HoloLens Vibecoded Apps: What If ChatGPT Was Released in 2016?
 
 ## The Premise
 

@@ -1,21 +1,5 @@
 ---
-title: "Universal Design AI Systems: Automating WCAG Audits & Fixing Violations with AI Agents"
-date: 2026-10-05
-tags:
-  - accessibility
-  - wcag
-  - playwright
-  - axe-core
-  - github-actions
-  - ai-agents
-  - automation
-  - testing
-description: "How uustreak and wcag-skill work together to automate WCAG 2.1 compliance testing across Norwegian public websites and use AI agents to detect and fix violations."
-layout: post.njk
-permalink: /universal-design-ai-systems/
----
 
-# Universal Design AI Systems: Automating WCAG Audits & Fixing Violations with AI Agents
 
 ## The Vision
 

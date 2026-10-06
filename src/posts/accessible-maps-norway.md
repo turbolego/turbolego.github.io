@@ -1,19 +1,5 @@
 ---
-title: "Wheelchair-Accessible Routing with Geonorge WMS Layers & OpenLayers"
-date: 2026-10-05
-tags:
-  - accessibility
-  - maps
-  - openlayers
-  - geonorge
-  - kotlin
-  - wms
-description: "Two complementary projects for wheelchair accessibility mapping in Norway: RullUt (Kotlin Android app) and Tilgjengelighet-WMS-OpenLayers (TypeScript web app)."
-layout: post.njk
-permalink: /accessible-maps-norway/
----
 
-# Wheelchair-Accessible Routing with Geonorge WMS Layers & OpenLayers
 
 ## Problem
 

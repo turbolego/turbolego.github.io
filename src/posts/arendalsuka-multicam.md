@@ -1,19 +1,5 @@
 ---
-title: "Live-Streaming Arendalsuka 2024 to Facebook & LinkedIn Simultaneously"
-date: 2026-10-05
-tags:
-  - streaming
-  - multicam
-  - obs
-  - arendalsuka
-  - how-to
-  - rtmp
-description: "How The Electrical Association in Norway set up their live streams during Arendalsuka 2024 for Facebook and LinkedIn with multiple Logitech cameras using OBS, nginx-rtmp, and custom automation scripts."
-layout: post.njk
-permalink: /arendalsuka-multicam/
----
 
-# Live-Streaming Arendalsuka 2024 to Facebook & LinkedIn Simultaneously
 
 ## Challenge
 

@@ -12,7 +12,6 @@ layout: post.njk
 permalink: /guess-the-song/
 ---
 
-# Guess The Song - Music Quiz Game
 
 ![Guess The Song Logo](/assets/images/guess-the-song-logo.png)
 
