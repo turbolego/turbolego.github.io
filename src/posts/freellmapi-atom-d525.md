@@ -172,8 +172,6 @@ Run as hermes:hermes, never root. Tailscale only. Weekly `npm audit`. Security a
 
 Result: one OpenAI-compatible endpoint, 34 free providers, stable on Atom D525, non-root, reproducible.
 
-## Changes vs upstream tashfeenahmed/freellmapi
-
 This fork differs from upstream in documentation only. The approach demonstrates how to tune FreeLLMAPI for constrained hardware.
 
 | File | Change | Reason |
