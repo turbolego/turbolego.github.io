@@ -1,0 +1,138 @@
+---
+title: GuessTheSongYear - Music Quiz Party Game
+date: 2025-10-06
+tags:
+  - app
+  - android
+  - music
+  - game
+  - party
+description: GuessTheSongYear is a music quiz party game for Android — watch a music video, guess its release year, compete with friends on the same device or over LAN
+layout: post.njk
+permalink: /guess-the-song-year/
+---
+
+# GuessTheSongYear 🎵
+
+**A music quiz party game for Android** — watch a music video, guess its release year, compete with friends on the same device or over LAN.
+
+No accounts. No ads. No tracking. Just music and guessing.
+
+> 🛡️ **Development environment security verified:** 2026-07-28 — build machine hardened (UFW, fail2ban, tirith, key-only auth pending final step)
+
+---
+
+## 🎮 How the Game Works
+
+1. **Pick a difficulty** — Easy (1980–2010, with hints), Medium (1970–2024), or Hard (1960–2025). Harder = more points.
+2. **Watch the video** — A YouTube music video plays and you listen (and watch, unless you toggle listen-only mode).
+3. **Guess the year** — Type a year or scroll through the year picker. The closer you are, the more points you get.
+4. **See the results** — After everyone guesses, the host reveals the answer with a leaderboard.
+
+**Exact guess:** 50 pts + streak bonus · **Off by 1:** 30 pts · **Off by ≤3:** 20 pts · **Off by ≤5:** 10 pts · **Off by ≤10:** 5 pts · **Way off:** 0 pts, but the right answer stares you in the face.
+
+---
+
+## 👥 Multiplayer
+
+Play solo or host a LAN party — everyone on the same WiFi can join:
+
+| Mode | How it works |
+|---|---|
+| **Host** | Press "Vert" (Host). The app shows your IP + a QR code. Friends scan or type it in. |
+| **Join** | Press "Bli med" (Join). It scans your network automatically for active hosts — no manual typing needed. |
+| **QR scan** | Press the QR button to scan the host's code directly with your camera. |
+
+**Discovery is automatic.** As soon as someone opens the Join tab, the app probes `192.168.x.2–254` looking for hosts with a HELLO/ACK handshake. Usually it finds the host before you notice.
+
+### Connection Types
+
+- **WiFi** (TCP on port 8888) — the default, requires same LAN
+- **TLS** (TCP on port 8889) — encrypted channel with SPKI certificate pinning, activated when the joiner scans the host's QR code
+- **Bluetooth RFCOMM** — close-range fallback, no WiFi needed
+
+Messages exchanged between host and joiners are **HMAC-SHA256 signed** using a per-session random key distributed at join time. Older unsigned clients are still accepted (backward-compatible).
+
+---
+
+## 📱 Features
+
+- 🎵 **YouTube video via official Iframe Player API** — zero ToS violations, no API keys, no user login
+- 🎵 **~40 music videos spanning decades** — from 80s classics to modern hits
+- 🎯 **Three difficulty levels** with different year ranges and score multipliers
+- 📊 **Streak system** — correct guesses build a streak for bonus points, wrong guesses reset it
+- 🕹️ **Classic and Arcade local multiplayer** — either everyone guesses together or players rotate one turn at a time
+- 👥 **Remembered party setup** — two to eight named players persist between games
+- 🎚️ **Configurable song distribution** — choose pure random, modern-prioritized, or custom decade weights
+- 📈 **Persistent player statistics** — review guesses, exact answers, and points from the toolbar
+- 📐 **Responsive game surfaces** — 16:9 playback and adaptive spacing scale from phones to tablets
+- 🔊 **Listen-only mode** — the video overlay with the video opens and manages YouTube externally
+- 🌓 **Dark theme** with amber accent, Material3 design
+- 🔤 **Norwegian ←→ English UI** — switch language from the toolbar
+- 🚫 **Duplicate prevention** — songs you've already seen are avoided
+- ⏭️ **Auto-skip** — embed-disabled videos skip silently to the next one
+- 📱 **Min SDK 24** (Android 7.0) through **target SDK 37** (Android 15)
+
+---
+
+## 🏗️ Architecture
+
+```
+GuessTheSongYear
+├── MainActivity.kt                Entry point, toolbar, difficulty & language switching
+├── VideoPlayerFragment.kt         Core game: WebView YouTube Iframe API, guess engine, scoring
+├── ScoreManager.kt                Points calculation, streaks, accuracy
+├── Difficulty.kt                  Easy/Medium/Hard config (year ranges + multipliers)
+├── GameSessionManager.kt          Session state for multiplayer
+├── HostGameFragment.kt            Host UI: IP/QGSR display, player list
+├── JoinGameFragment.kt            Join UI: LAN scan results, QR scanning, manual IP entry
+├── Protocol.kt                    TCP message JSON protocol (10 message types)
+├── HostGameService.kt             TCP server on port 8888 + TLS on 8889, HMAC signing
+├── JoinGameService.kt             TCP client, LAN scanner, SPKI pinning, HMAC verify
+├── SecureChannelManager.kt        TLS infrastructure: ephemeral RSA keys, self-signed certs
+└── ... (layouts, resources, tests)
+```
+
+### Security Features
+
+| Layer | Approach |
+|---|---|
+| **Transport** | Optional TLS (`TLSv1.3`) with ephemeral RSA 2048 keys + self-signed X.509 cert per session |
+| **Certificate pinning** | SPKI hash shown on host screen — clients verify it during TLS join |
+| **Message signing** | HMAC-SHA256 on every message body, key shared in `JOIN_ACK` |
+| **Fallback** | Plain TCP still available for backwards compatibility; unsigned messages still accepted from old clients |
+| **CI** | `contents: write` permission scoped to release job only, not workflow level |
+
+---
+
+## 🧱 Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Language | Kotlin |
+| Build | Gradle + Android Gradle Plugain 9.3.0 + Kotlin 2.4.10 |
+| UI | Android ViewBinding + Material3 |
+| Video player | YouTube Iframe Player API (WebView embeddings) |
+| YouTube API library | `com.pierfrancescosoffritti.androidyoutubeplayer:core` 12.1.2 |
+| QR code | ZXing Core 3.5.3 + ZXing Embedded 4.3.0 |
+| Crypto (TLS) | BouncyCastle bcpkix-jdk18on 1.84 + standard javax.net.ssl |
+| Crypto (signing) | HMAC-SHA256 via javax.crypto.Mac |
+| CI/CD | GitHub Actions (build + test + release on push to master) |
+
+---
+
+## 📄 License & Privacy
+
+GuessTheSongYear is open source. The name "GuessTheSongYear", the game loop concept, and all source code in this repository are open source. Contributions are welcome.
+
+**Privacy:** No accounts. No ads. No tracking. The app uses YouTube Iframe Player API with zero API keys and no user login. Multiplayer traffic stays on your local LAN. Personal data is not collected.
+
+For a detailed security audit, see [SECURITY.md](https://github.com/turbolego/GuessTheSongYear/blob/master/SECURITY.md) in the repository.
+
+---
+
+## 📦 Releases
+
+Every push to `master` auto-builds a new APK through CI, bumps version numbers, and creates a [GitHub Release](https://github.com/turbolego/GuessTheSongYear/releases). Find the latest one and side-load it onto your Android device — the project isn't on the Play Store (it was a weekend side-project).
+
+**Repository:** https://github.com/turbolego/GuessTheSongYear
