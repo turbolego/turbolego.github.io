@@ -1,16 +1,44 @@
 const CACHE = 'plogekart-v2';
-const BASE = location.pathname.substring(0, location.pathname.lastIndexOf('/')+1);
-const ASSETS = [
-  BASE,
-  BASE+'index.html',
-  BASE+'style.css',
-  BASE+'js/app.js',
-  BASE+'manifest.json'
-];
-self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())); });
-self.addEventListener('activate', e => { e.waitUntil(self.clients.claim()); });
+
+self.addEventListener('install', e => {
+  // No addAll: avoids failures when any URL is not cached yet.
+  self.skipWaiting();
+});
+
+self.addEventListener('activate', e => {
+  e.waitUntil(self.clients.claim());
+});
+
 self.addEventListener('fetch', e => {
-  if(e.request.url.startsWith(self.location.origin+BASE)) {
-    e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+  const req = e.request;
+  const url = new URL(req.url);
+
+  // Only intercept same-site requests (the PlogeKart app assets).
+  if (url.origin !== self.location.origin) return;
+
+  // Network-first for HTML/CSS/JS; fall back to cache when offline.
+  if (req.headers.get('accept')?.includes('text/html') || req.headers.get('accept')?.includes('application/json')) {
+    e.respondWith(
+      fetch(req)
+        .then(res => {
+          const clone = res.clone();
+          caches.open(CACHE).then(c => c.put(req, clone));
+          return res;
+        })
+        .catch(() => caches.match(req))
+    );
+    return;
   }
+
+  // Cache-first for static assets (CSS/JS/manifest/icons).
+  e.respondWith(
+    caches.match(req).then(cached => {
+      if (cached) return cached;
+      return fetch(req).then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(req, clone));
+        return res;
+      });
+    })
+  );
 });
