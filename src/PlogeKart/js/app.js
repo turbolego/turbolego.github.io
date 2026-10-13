@@ -1,5 +1,5 @@
 const BASE = 'https://mobiwinqa.bmsystem.se/PlogNorge/Home';
-const TILE = 'https://maps.bmsystem.se/osm/standard';
+const TILE = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const STATUS_EL = document.getElementById('status');
 const LOG_EL = document.getElementById('log');
 const GROUP_SELECT = document.getElementById('groupSelect');
@@ -7,7 +7,9 @@ const ENABLE_BTN = document.getElementById('enableNotif');
 const CLEAR_BTN = document.getElementById('clearArea');
 
 const map = L.map('map', { zoomControl:true }).setView([59.91,10.75], 9);
-L.tileLayer(TILE+'/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© BM System' }).addTo(map);
+L.tileLayer(TILE_OSM, { maxZoom:19, attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map);
+const staticRoads = await loadStaticMapData();
 
 const drawnItems = new L.FeatureGroup().addTo(map);
 const drawControl = new L.Control.Draw({ edit:{ featureGroup: drawnItems }, draw:{ polygon:true, polyline:false, rectangle:true, circle:false, marker:false, circlemarker:false }});
@@ -55,8 +57,33 @@ async function loadGroups(){
 }
 GROUP_SELECT.onchange = e => { currentGroupId = e.target.value; localStorage.setItem('groupId', currentGroupId); startPolling(); log('Group '+currentGroupId); };
 
-async function loadPollInterval(){
-  try { pollInterval = Number(await api('/GetStatusGroupsPollIntervalMinutes'))||5; log('Poll interval '+pollInterval+' min'); } catch(e){}
+const TILE_OSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const TILE_GEO = 'https://maps.gebo.io/geoserver/geonorge/wms?service=WMS&request=GetMap&layers=tilgjengelighet&format=image/png&transparent=true';
+
+async function loadStaticMapData() {
+  try {
+    const res = await fetch('data/static-roads.geojson');
+    const data = await res.json();
+    const layer = L.geoJSON(data, {
+      style: f => {
+        const type = f.properties?.type || '';
+        if (type === 'visited') return { color: '#22c55e', weight: 4 };
+        if (type === 'visitedRecently') return { color: '#facc15', weight: 5 };
+        if (type === 'notVisited') return { color: '#ef4444', weight: 3 };
+        return { color: '#94a3b8', weight: 2 };
+      }
+    }).addTo(map);
+    return layer;
+  } catch(e) { log('Static map data error: '+e); return null; }
+}
+
+async function loadDynamicMapData() {
+  if(!currentGroupId) return;
+  try {
+    const visits = await api('/GetVisits', { method:'POST', body: JSON.stringify({ Date: new Date().toISOString(), StatusGroupId: Number(currentGroupId) }) });
+    if(!visits) return;
+    renderVisits(visits);
+  } catch(e) { log('Dynamic map data error: '+e); }
 }
 
 async function fetchVisits(){
@@ -120,7 +147,7 @@ async function checkStatus(){
 
 function startPolling(){
   if(pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(checkStatus, pollInterval*60*1000);
+  pollTimer = setInterval(async () => { await loadDynamicMapData(); }, pollInterval*60*1000);
   checkStatus();
 }
 
