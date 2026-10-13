@@ -23,13 +23,20 @@ function log(msg){ LOG_EL.textContent = new Date().toISOString()+' '+msg+'\n'+LO
 function updateStatus(s){ STATUS_EL.textContent = s ?? STATUS_EL.textContent; }
 
 async function api(path, opts={}) {
-  const res = await fetch(BASE+path, {
+  // Use r.jina.ai proxy for GET to bypass CORS; POST needs real endpoint with cookies
+  let url = BASE+path;
+  if ((opts.method||'GET').toUpperCase()==='GET') {
+    url = 'https://r.jina.ai/http://mobiwinqa.bmsystem.se' + path.replace(/^\/PlogNorge/, '');
+  }
+  const res = await fetch(url, {
     credentials:'include',
     headers: { 'Accept':'application/json, text/javascript, */*; q=0.01', 'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest', ...(opts.headers||{}) },
     ...opts
   });
   const txt = await res.text();
-  try { return JSON.parse(txt); } catch { return txt; }
+  // r.jina.ai wraps output with markdown header, strip it
+  const cleaned = txt.replace(/^Title:.*\n\nURL Source:.*\n\nMarkdown Content:\n?/, '');
+  try { return JSON.parse(cleaned); } catch { return cleaned; }
 }
 
 async function loadGroups(){
