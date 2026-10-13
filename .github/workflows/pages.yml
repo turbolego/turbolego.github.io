@@ -36,7 +36,7 @@ jobs:
       - name: Clean Eleventy's PlogeKart output
         run: rm -rf _site/PlogeKart
 
-      # Sync the clean src/PlogeKart into _site
+      # Sync the clean committed src/PlogeKart into _site
       - name: Sync clean PlogeKart into _site
         run: |
           cp -r src/PlogeKart _site/PlogeKart
