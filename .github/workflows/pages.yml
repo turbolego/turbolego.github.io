@@ -30,24 +30,8 @@ jobs:
           
       - name: Setup Pages
         uses: actions/configure-pages@v6
-        
-      - name: Install dependencies
-        run: npm install
-        
-      - name: Build
-        run: npm run build
-      # Remove Eleventy's nested PlogeKart copy (it copies ./src/PlogeKart into _site)
-      - name: Clean Eleventy's PlogeKart output
-        run: rm -rf _site/PlogeKart
-      # Deploy the committed clean _site (already contains the clean PlogeKart)
-      - name: Deploy clean _site
-        run: |
-          cp -r _site/PlogeKart _site/PlogeKart-clean
-          rm -rf _site/PlogeKart
-          cp -r _site/PlogeKart-clean _site/PlogeKart
-          rm -rf _site/PlogeKart-clean
-        
-      - name: Upload artifact
+
+      - name: Deploy committed _site to GitHub Pages
         uses: actions/upload-pages-artifact@v5
         with:
           path: "_site"
