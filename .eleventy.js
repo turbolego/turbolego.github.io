@@ -21,6 +21,9 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("./src/PlogeKart/data");
   eleventyConfig.addPassthroughCopy("./src/img");
   eleventyConfig.addPassthroughCopy("./src/assets/images");
+  eleventyConfig.addPassthroughCopy("./src/PlogeKart");
+  eleventyConfig.addWatchTarget("./src/PlogeKart");
+
   eleventyConfig.addPassthroughCopy("./src/favicon.ico");
 
   // Add plugins
