@@ -1,5 +1,7 @@
 const BASE = 'https://mobiwinqa.bmsystem.se/PlogNorge/Home';
-const TILE = 'https://maps.bmsystem.se/osm/standard';
+const TILE_OSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const TILE_GEO = 'https://maps.gebo.io/geoserver/geonorge/wms?service=WMS&request=GetMap&layers=tilgjengelighet&format=image/png&transparent=true';
+
 const STATUS_EL = document.getElementById('status');
 const LOG_EL = document.getElementById('log');
 const GROUP_SELECT = document.getElementById('groupSelect');
@@ -7,7 +9,8 @@ const ENABLE_BTN = document.getElementById('enableNotif');
 const CLEAR_BTN = document.getElementById('clearArea');
 
 const map = L.map('map', { zoomControl:true }).setView([59.91,10.75], 9);
-L.tileLayer(TILE+'/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© BM System' }).addTo(map);
+L.tileLayer(TILE_OSM, { maxZoom:19, attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map);
 
 const drawnItems = new L.FeatureGroup().addTo(map);
 const drawControl = new L.Control.Draw({ edit:{ featureGroup: drawnItems }, draw:{ polygon:true, polyline:false, rectangle:true, circle:false, marker:false, circlemarker:false }});
@@ -39,7 +42,7 @@ async function api(path, opts={}) {
   try { return JSON.parse(cleaned); } catch { return cleaned; }
 }
 
-async function loadGroups(){
+async function loadGroups() {
   try {
     const data = await api('/GetStatusGroups');
     if(!Array.isArray(data)) throw new Error('Unexpected');
@@ -55,36 +58,37 @@ async function loadGroups(){
 }
 GROUP_SELECT.onchange = e => { currentGroupId = e.target.value; localStorage.setItem('groupId', currentGroupId); startPolling(); log('Group '+currentGroupId); };
 
-async function loadPollInterval(){
+async function loadPollInterval() {
   try { pollInterval = Number(await api('/GetStatusGroupsPollIntervalMinutes'))||5; log('Poll interval '+pollInterval+' min'); } catch(e){}
 }
 
-async function fetchVisits(){
-  if(!currentGroupId) return null;
-  const payload = { Date: new Date().toISOString(), StatusGroupId: Number(currentGroupId) };
-  const data = await api('/GetVisits', { method:'POST', body: JSON.stringify(payload) });
-  return data;
+async function loadStaticMapData() {
+  try {
+    const res = await fetch('data/static-roads.geojson');
+    const data = await res.json();
+    const layer = L.geoJSON(data, {
+      style: f => {
+        const type = f.properties?.type || '';
+        if (type === 'visited') return { color: '#22c55e', weight: 4 };
+        if (type === 'visitedRecently') return { color: '#facc15', weight: 5 };
+        if (type === 'notVisited') return { color: '#ef4444', weight: 3 };
+        return { color: '#94a3b8', weight: 2 };
+      }
+    }).addTo(map);
+    return layer;
+  } catch(e) { log('Static map data error: '+e); return null; }
 }
 
-function pointInPolygon(pt, poly){
-  const [x,y]=pt; let inside=false;
-  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
-    const [xi,yi]=poly[i], [xj,yj]=poly[j];
-    const intersect = ((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi);
-    if(intersect) inside=!inside;
-  }
-  return inside;
-}
-function getAreaPolygons(){
-  const layers = drawnItems.getLayers();
-  if(!layers.length) return [];
-  const geom = layers[0].toGeoJSON().geometry;
-  if(geom.type==='Polygon') return [geom.coordinates[0].map(c=>[c[1],c[0]])];
-  if(geom.type==='MultiPolygon') return geom.coordinates.map(p=>p[0].map(c=>[c[1],c[0]]));
-  return [];
+async function loadDynamicMapData() {
+  if(!currentGroupId) return;
+  try {
+    const visits = await api('/GetVisits', { method:'POST', body: JSON.stringify({ Date: new Date().toISOString(), StatusGroupId: Number(currentGroupId) }) });
+    if(!visits) return;
+    renderVisits(visits);
+  } catch(e) { log('Dynamic map data error: '+e); }
 }
 
-function renderVisits(visits){
+function renderVisits(visits) {
   // clear old
   map.eachLayer(l => { if(l.options && l.options.isVisit) map.removeLayer(l); });
   if(!Array.isArray(visits)) return;
@@ -99,6 +103,25 @@ function renderVisits(visits){
     const polys = getAreaPolygons();
     if(polys.length){ const inside = latlngs.some(ll => polys.some(p=>pointInPolygon(ll,p))); if(inside){ poly.setStyle({color:'#facc15', weight:5}); } }
   });
+}
+
+function pointInPolygon(pt, poly){
+  const [x,y]=pt; let inside=false;
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const [xi,yi]=poly[i], [xj,yj]=poly[j];
+    const intersect = ((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi);
+    if(intersect) inside=!inside;
+  }
+  return inside;
+}
+
+function getAreaPolygons(){
+  const layers = drawnItems.getLayers();
+  if(!layers.length) return [];
+  const geom = layers[0].toGeoJSON().geometry;
+  if(geom.type==='Polygon') return [geom.coordinates[0].map(c=>[c[1],c[0]])];
+  if(geom.type==='MultiPolygon') return geom.coordinates.map(p=>p[0].map(c=>[c[1],c[0]]));
+  return [];
 }
 
 async function checkStatus(){
@@ -120,7 +143,7 @@ async function checkStatus(){
 
 function startPolling(){
   if(pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(checkStatus, pollInterval*60*1000);
+  pollTimer = setInterval(async () => { await loadDynamicMapData(); }, pollInterval*60*1000);
   checkStatus();
 }
 
@@ -149,6 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadGroups();
   const saved = localStorage.getItem('groupId');
   if(saved){ GROUP_SELECT.value = saved; currentGroupId = saved; }
+  loadStaticMapData();
   startPolling();
   updateStatus('Ready');
   // PWA
