@@ -26,25 +26,13 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Checkout
+        uses: actions/checkout@v7
 
-      - name: Build
-        run: npm run build
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
 
-      # Remove Eleventy's nested PlogeKart copy (it copies ./src/PlogeKart into _site)
-      - name: Clean Eleventy's PlogeKart output
-        run: rm -rf _site/PlogeKart
-
-      # Sync the clean committed src/PlogeKart into _site
-      - name: Sync clean PlogeKart into _site
-        run: |
-          cp -r src/PlogeKart _site/PlogeKart
-          cp src/PlogeKart/data/static-roads.geojson _site/PlogeKart/data/static-roads.geojson
-          cp src/PlogeKart/icons/icon-192.png _site/PlogeKart/icons/icon-192.png
-          cp src/PlogeKart/icons/icon-512.png _site/PlogeKart/icons/icon-512.png
-
-      - name: Deploy clean _site to GitHub Pages
+      - name: Deploy committed clean _site to GitHub Pages
         uses: actions/upload-pages-artifact@v5
         with:
           path: "_site"
