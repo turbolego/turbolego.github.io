@@ -36,8 +36,13 @@ jobs:
         
       - name: Build
         run: npm run build
+      # Remove Eleventy's nested PlogeKart copy (it copies ./src/PlogeKart into _site)
+      - name: Clean Eleventy's PlogeKart output
+        run: rm -rf _site/PlogeKart
+      # Sync the committed clean PlogeKart into _site
       - name: Sync clean PlogeKart into _site
         run: |
+          cp -r _site/PlogeKart-clean _site/PlogeKart 2>/dev/null || true
           cp -r src/PlogeKart _site/PlogeKart
           cp src/PlogeKart/data/static-roads.geojson _site/PlogeKart/data/static-roads.geojson
           cp src/PlogeKart/icons/icon-192.png _site/PlogeKart/icons/icon-192.png
