@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadGroups();
   const saved = localStorage.getItem('groupId');
   if(saved){ GROUP_SELECT.value = saved; currentGroupId = saved; }
-  loadStaticMapData();
+  await loadStaticMapData();
   startPolling();
   updateStatus('Ready');
   // PWA
