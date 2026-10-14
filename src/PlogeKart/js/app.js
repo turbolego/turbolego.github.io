@@ -1,7 +1,6 @@
 const BASE = 'https://mobiwinqa.bmsystem.se/PlogNorge/Home';
 const TILE_OSM = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const TILE_GEO = 'https://maps.gebo.io/geoserver/geonorge/wms?service=WMS&request=GetMap&layers=tilgjengelighet&format=image/png&transparent=true';
-
 const STATUS_EL = document.getElementById('status');
 const LOG_EL = document.getElementById('log');
 const GROUP_SELECT = document.getElementById('groupSelect');
@@ -9,6 +8,7 @@ const ENABLE_BTN = document.getElementById('enableNotif');
 const CLEAR_BTN = document.getElementById('clearArea');
 
 const map = L.map('map', { zoomControl:true }).setView([59.91,10.75], 9);
+window.map = map;
 L.tileLayer(TILE_OSM, { maxZoom:19, attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
 L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map);
 
@@ -33,7 +33,7 @@ async function api(path, opts={}) {
   }
   const res = await fetch(url, {
     credentials:'include',
-    headers: { 'Accept':'application/json, text/javascript, */*; q=0.01', 'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest', ...(opts.headers||{}) },
+    headers: { 'Accept':'application/json, text/javascript, */*; q=0.01', 'Content-Type':'application/json', 'X-Requested-With':'XMLHttpRequest', ...(opts.headers||{}) } ,
     ...opts
   });
   const txt = await res.text();
@@ -42,7 +42,7 @@ async function api(path, opts={}) {
   try { return JSON.parse(cleaned); } catch { return cleaned; }
 }
 
-async function loadGroups() {
+async function loadGroups(){
   try {
     const data = await api('/GetStatusGroups');
     if(!Array.isArray(data)) throw new Error('Unexpected');
@@ -58,7 +58,7 @@ async function loadGroups() {
 }
 GROUP_SELECT.onchange = e => { currentGroupId = e.target.value; localStorage.setItem('groupId', currentGroupId); startPolling(); log('Group '+currentGroupId); };
 
-async function loadPollInterval() {
+async function loadPollInterval(){
   try { pollInterval = Number(await api('/GetStatusGroupsPollIntervalMinutes'))||5; log('Poll interval '+pollInterval+' min'); } catch(e){}
 }
 
@@ -75,6 +75,7 @@ async function loadStaticMapData() {
         return { color: '#94a3b8', weight: 2 };
       }
     }).addTo(map);
+    window.__staticDataLoaded = true;
     return layer;
   } catch(e) { log('Static map data error: '+e); return null; }
 }
@@ -88,7 +89,25 @@ async function loadDynamicMapData() {
   } catch(e) { log('Dynamic map data error: '+e); }
 }
 
-function renderVisits(visits) {
+function pointInPolygon(pt, poly){
+  const [x,y]=pt; let inside=false;
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
+    const [xi,yi]=poly[i], [xj,yj]=poly[j];
+    const intersect = ((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi);
+    if(intersect) inside=!inside;
+  }
+  return inside;
+}
+function getAreaPolygons(){
+  const layers = drawnItems.getLayers();
+  if(!layers.length) return [];
+  const geom = layers[0].toGeoJSON().geometry;
+  if(geom.type==='Polygon') return [geom.coordinates[0].map(c=>[c[1],c[0]])];
+  if(geom.type==='MultiPolygon') return geom.coordinates.map(p=>p[0].map(c=>[c[1],c[0]]));
+  return [];
+}
+
+function renderVisits(visits){
   // clear old
   map.eachLayer(l => { if(l.options && l.options.isVisit) map.removeLayer(l); });
   if(!Array.isArray(visits)) return;
@@ -105,30 +124,11 @@ function renderVisits(visits) {
   });
 }
 
-function pointInPolygon(pt, poly){
-  const [x,y]=pt; let inside=false;
-  for(let i=0,j=poly.length-1;i<poly.length;j=i++){
-    const [xi,yi]=poly[i], [xj,yj]=poly[j];
-    const intersect = ((yi>y)!==(yj>y)) && (x < (xj-xi)*(y-yi)/(yj-yi)+xi);
-    if(intersect) inside=!inside;
-  }
-  return inside;
-}
-
-function getAreaPolygons(){
-  const layers = drawnItems.getLayers();
-  if(!layers.length) return [];
-  const geom = layers[0].toGeoJSON().geometry;
-  if(geom.type==='Polygon') return [geom.coordinates[0].map(c=>[c[1],c[0]])];
-  if(geom.type==='MultiPolygon') return geom.coordinates.map(p=>p[0].map(c=>[c[1],c[0]]));
-  return [];
-}
-
 async function checkStatus(){
   if(!currentGroupId) return;
-  const visits = await fetchVisits();
+  await loadDynamicMapData();
+  const visits = await api('/GetVisits', { method:'POST', body: JSON.stringify({ Date: new Date().toISOString(), StatusGroupId: Number(currentGroupId) }) });
   if(!visits) return;
-  renderVisits(visits);
   const hash = JSON.stringify(visits);
   if(hash!==lastVisitsHash){
     lastVisitsHash = hash;
@@ -143,7 +143,7 @@ async function checkStatus(){
 
 function startPolling(){
   if(pollTimer) clearInterval(pollTimer);
-  pollTimer = setInterval(async () => { await loadDynamicMapData(); }, pollInterval*60*1000);
+  pollTimer = setInterval(checkStatus, pollInterval*60*1000);
   checkStatus();
 }
 
