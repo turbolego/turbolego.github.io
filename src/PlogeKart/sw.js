@@ -1,4 +1,4 @@
-const CACHE = 'plogekart-v2';
+const CACHE = 'plogekart-v3';
 
 self.addEventListener('install', e => {
   // No addAll: avoids failing the whole install when one URL is missing.
