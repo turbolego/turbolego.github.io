@@ -70,7 +70,7 @@ async function loadStaticMapData() {
       style: f => {
         const type = f.properties?.type || '';
         if (type === 'visited') return { color: '#22c55e', weight: 4 };
-        if (type === 'visitedRecently') return { color: '#facc15', weight: 5 };
+        if (type === 'visitedRecently') return { color: '#3b82f6', weight: 5 };
         if (type === 'notVisited') return { color: '#ef4444', weight: 3 };
         return { color: '#94a3b8', weight: 2 };
       }
