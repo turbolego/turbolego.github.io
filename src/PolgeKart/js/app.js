@@ -13,9 +13,33 @@ L.tileLayer(TILE_OSM, { maxZoom:19, attribution:'© <a href="https://openstreetm
 L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map);
 
 const drawnItems = new L.FeatureGroup().addTo(map);
-const drawControl = new L.Control.Draw({ edit:{ featureGroup: drawnItems }, draw:{ polygon:true, polyline:false, rectangle:true, circle:false, marker:false, circlemarker:false }});
+const drawControl = new L.Control.Draw({
+  edit: { featureGroup: drawnItems },
+  draw: {
+    polygon: {
+      shapeOptions: { color: '#facc15', weight: 3 },
+      showArea: true,
+      allowIntersection: false,
+      drawError: { color: '#e1e100', message: '<strong>Error:</strong> shape edges cannot cross!'
+      }
+    },
+    polyline: false,
+    rectangle: { shapeOptions: { color: '#facc15', weight: 3 }},
+    circle: false,
+    marker: false,
+    circlemarker: false
+  }
+});
 map.addControl(drawControl);
-map.on(L.Draw.Event.CREATED, e => { drawnItems.clearLayers(); drawnItems.addLayer(e.layer); saveArea(); log('Area selected'); updateStatus(); });
+map.on(L.Draw.Event.DRAWSTART, e => { drawnItems.clearLayers(); });
+map.on(L.Draw.Event.CREATED, e => {
+  drawnItems.addLayer(e.layer);
+  saveArea();
+  log('Area selected');
+  updateStatus();
+});
+map.on(L.Draw.Event.EDITED, e => { saveArea(); log('Area edited'); });
+map.on(L.Draw.Event.DELETED, e => { saveArea(); log('Area deleted'); });
 
 let currentGroupId = null;
 let pollInterval = 5;
@@ -46,7 +70,7 @@ async function loadGroups(){
   try {
     const data = await api('/GetStatusGroups');
     if(!Array.isArray(data)) throw new Error('Unexpected');
-    GROUP_SELECT.innerHTML = '';
+    GROUP_SELECT.innerHTML = '<option value="">Select group...</option>';
     data.forEach(g => {
       const o = document.createElement('option');
       o.value = g.Id ?? g.id;
@@ -54,7 +78,10 @@ async function loadGroups(){
       GROUP_SELECT.appendChild(o);
     });
     log('Loaded '+data.length+' groups');
-  } catch(e){ log('Groups error: '+e); }
+  } catch(e){ 
+    log('Groups error: '+e); 
+    GROUP_SELECT.innerHTML = '<option value="64">64 - Bærum (fallback)</option>';
+  }
 }
 GROUP_SELECT.onchange = e => { currentGroupId = e.target.value; localStorage.setItem('groupId', currentGroupId); startPolling(); log('Group '+currentGroupId); };
 
@@ -141,6 +168,34 @@ async function checkStatus(){
     }
     log('Visits updated');
   }
+  // Detect color change inside drawn area
+  if(getAreaPolygons().length){
+    const colorChanges = detectColorChanges(visits);
+    if(colorChanges.length){
+      if(Notification.permission==='granted'){
+        new Notification('PlogeKart color change', { body: colorChanges.length+' road segment(s) changed color inside area for group '+currentGroupId });
+      }
+      log('Color changes inside area: '+colorChanges.length);
+    }
+  }
+}
+
+let lastColorSnapshot = {};
+function detectColorChanges(visits){
+  const polys = getAreaPolygons();
+  if(!polys.length) return [];
+  const changes = [];
+  const mov = visits.MaintenanceObjectVisits || [];
+  for(const item of mov){
+    const wkt = item.Wkt || '';
+    const color = item.Color || '';
+    const id = item.Id;
+    if(lastColorSnapshot[id] && lastColorSnapshot[id] !== color){
+      changes.push({id, from:lastColorSnapshot[id], to:color});
+    }
+    lastColorSnapshot[id] = color;
+  }
+  return changes;
 }
 
 function startPolling(){
@@ -160,7 +215,9 @@ CLEAR_BTN.onclick = () => { drawnItems.clearLayers(); localStorage.removeItem('a
 function saveArea(){
   const layers = drawnItems.getLayers();
   if(!layers.length){ localStorage.removeItem('area'); return; }
-  localStorage.setItem('area', JSON.stringify(layers[0].toGeoJSON()));
+  const gj = layers[0].toGeoJSON();
+  localStorage.setItem('area', JSON.stringify(gj));
+  localStorage.setItem('areaTimestamp', Date.now().toString());
 }
 function loadArea(){
   const a = localStorage.getItem('area');
