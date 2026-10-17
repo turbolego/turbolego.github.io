@@ -1,4 +1,4 @@
-const CACHE = 'plogekart-v5';
+const CACHE = 'plogekart-v6';
 const BASE = location.pathname.substring(0, location.pathname.lastIndexOf('/')+1);
 const ASSETS = [
   BASE,
