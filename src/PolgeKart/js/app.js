@@ -265,4 +265,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateStatus('Ready');
   // PWA
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(e=>log('SW error '+e)); }
+
+  // Settings modal
+  const settingsBtn = document.getElementById('settingsBtn');
+  const settingsModal = document.getElementById('settingsModal');
+  const closeBtn = settingsModal.querySelector('.close');
+  if(settingsBtn && settingsModal && closeBtn){
+    settingsBtn.onclick = () => { settingsModal.style.display = 'block'; };
+    closeBtn.onclick = () => { settingsModal.style.display = 'none'; };
+    window.onclick = e => { if(e.target === settingsModal) settingsModal.style.display = 'none'; };
+  }
 });
