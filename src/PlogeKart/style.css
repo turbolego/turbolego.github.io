@@ -9,7 +9,7 @@ button { cursor:pointer; }
 #map { height: calc(100vh - 110px); }
 p#status { margin:.5rem 1rem; opacity:.8; }
 pre#log { margin:1rem; background:#020617; padding:.75rem; border-radius:.5rem; overflow:auto; max-height:20vh; font-size:.75rem; }
-/* Draw toolbar: white buttons, black glyph icons drawn on the <a> itself (same as zoom +/- live on the anchor) */
+/* Draw toolbar: white buttons, black glyph icons injected as real DOM text (same as Leaflet zoom +/-) */
 .leaflet-draw-toolbar a {
   background:#ffffff !important;
   border-color:#d1d5db !important;
@@ -18,16 +18,12 @@ pre#log { margin:1rem; background:#020617; padding:.75rem; border-radius:.5rem; 
   align-items:center;
   justify-content:center;
 }
-.leaflet-draw-toolbar a::before {
-  content:'';
-  font-style:normal;
+.leaflet-draw-toolbar a .draw-glyph {
+  display:block;
+  color:#111827 !important;
+  font-size:18px;
   font-weight:600;
   line-height:1;
-  color:#111827;
 }
-.leaflet-draw-toolbar a.leaflet-draw-draw-polygon::before { content:'◼'; font-size:16px; }
-.leaflet-draw-toolbar a.leaflet-draw-draw-rectangle::before { content:'▭'; font-size:18px; }
-.leaflet-draw-toolbar a.leaflet-draw-edit-edit::before { content:'✏'; font-size:16px; }
-.leaflet-draw-toolbar a.leaflet-draw-edit-remove::before { content:'✕'; font-size:18px; }
 .leaflet-draw-toolbar a:hover { background:#f3f4f6 !important; }
 .leaflet-draw-toolbar a.leaflet-disabled { background:#e5e7eb !important; opacity:0.6; }
