@@ -10,7 +10,7 @@ const CLEAR_BTN = document.getElementById('clearArea');
 const map = L.map('map', { zoomControl:true }).setView([59.91,10.75], 9);
 window.map = map;
 L.tileLayer(TILE_OSM, { maxZoom:19, attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
-L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map);
+// L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map); // Temporarily disabled due to service unavailability
 
 const drawnItems = new L.FeatureGroup().addTo(map);
 const drawControl = new L.Control.Draw({
