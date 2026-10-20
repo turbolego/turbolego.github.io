@@ -270,9 +270,106 @@ document.addEventListener('DOMContentLoaded', async () => {
   const settingsBtn = document.getElementById('settingsBtn');
   const settingsModal = document.getElementById('settingsModal');
   const closeBtn = settingsModal.querySelector('.close');
-  if(settingsBtn && settingsModal && closeBtn){
+  const settingsForm = document.getElementById('settingsForm');
+  const intervalTypeSelect = document.getElementById('intervalType');
+  const daysOfWeekSelect = document.getElementById('daysOfWeek');
+  const dailyTimeInput = document.getElementById('dailyTime');
+  const addDailyTimeBtn = document.getElementById('addDailyTime');
+  const dailyTimesDiv = document.getElementById('dailyTimes');
+  const multipleIntervalSelect = document.getElementById('multipleInterval');
+  const startTimeInput = document.getElementById('startTime');
+  const endTimeInput = document.getElementById('endTime');
+  const dailySettingsDiv = document.getElementById('dailySettings');
+  const multipleSettingsDiv = document.getElementById('multipleSettings');
+  if(settingsBtn && settingsModal && closeBtn && settingsForm){
     settingsBtn.onclick = () => { settingsModal.style.display = 'block'; };
     closeBtn.onclick = () => { settingsModal.style.display = 'none'; };
     window.onclick = e => { if(e.target === settingsModal) settingsModal.style.display = 'none'; };
+    // Load saved settings
+    function loadSettings(){
+      const savedType = localStorage.getItem('intervalType') || 'daily';
+      intervalTypeSelect.value = savedType;
+      const savedDays = localStorage.getItem('daysOfWeek');
+      if(savedDays){
+        const daysArray = savedDays.split(',').map(Number);
+        Array.from(daysOfWeekSelect.options).forEach(o=>{
+          o.selected = daysArray.includes(Number(o.value));
+        });
+      }
+      const savedDailyTime = localStorage.getItem('dailyTime');
+      const savedTimes = localStorage.getItem('dailyTimes');
+      if(savedDailyTime){ dailyTimeInput.value = savedDailyTime; }
+      if(savedTimes){ dailyTimesDiv.innerHTML = savedTimes; }
+      const savedMultiple = localStorage.getItem('multipleInterval');
+      if(savedMultiple){ multipleIntervalSelect.value = savedMultiple; }
+      const savedStart = localStorage.getItem('startTime');
+      if(savedStart){ startTimeInput.value = savedStart; }
+      const savedEnd = localStorage.getItem('endTime');
+      if(savedEnd){ endTimeInput.value = savedEnd; }
+      toggleSettingsSections();
+    }
+    // Save settings
+    function saveSettings(){
+      const type = intervalTypeSelect.value;
+      localStorage.setItem('intervalType', type);
+      const selectedDays = Array.from(daysOfWeekSelect.selectedOptions).map(o=>o.value);
+      localStorage.setItem('daysOfWeek', selectedDays.join(","));
+      localStorage.setItem('dailyTime', dailyTimeInput.value);
+      const timesHTML = dailyTimesDiv.innerHTML;
+      if(timesHTML.trim()){
+        localStorage.setItem('dailyTimes', timesHTML);
+      }else{
+        localStorage.removeItem('dailyTimes');
+      }
+      localStorage.setItem('multipleInterval', multipleIntervalSelect.value);
+      localStorage.setItem('startTime', startTimeInput.value);
+      localStorage.setItem('endTime', endTimeInput.value);
+      settingsModal.style.display = 'none';;
+    }
+    // Form submit
+    settingsForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      saveSettings();
+    });
+    // Toggle sections
+    function toggleSettingsSections(){
+      if(intervalTypeSelect.value === 'daily'){
+        dailySettingsDiv.style.display = 'block';;
+        multipleSettingsDiv.style.display = 'none';;
+      }else{
+        dailySettingsDiv.style.display = 'none';;
+        multipleSettingsDiv.style.display = 'block';;
+      }
+    }
+    intervalTypeSelect.addEventListener('change', toggleSettingsSections);
+    // Load on startup
+    loadSettings();
   }
 });
+    // Handle Add time button
+    const addDailyTimeBtn = document.getElementById('addDailyTime');
+    const dailyTimesDiv = document.getElementById('dailyTimes');
+    const dailyTimeInput = document.getElementById('dailyTime');
+    if(addDailyTimeBtn && dailyTimesDiv && dailyTimeInput){
+      addDailyTimeBtn.onclick = () => {
+        const time = dailyTimeInput.value;
+        if(!time) return;
+        const span = document.createElement('span');
+        span.style.cssText = 'display:inline-block;margin-right:0.5rem;margin-bottom:0.25rem;padding:0.25rem 0.5rem;background:#111827;color:#e6eef8;border-radius:0.5rem;font-size:0.875rem;';
+        span.textContent = time;
+        const removeBtn = document.createElement('button');
+        removeBtn.style.cssText = 'margin-left:0.4rem;background:none;border:none;color:#cbd5e1;font-size:0.75rem;cursor:pointer;';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = (e) => { e.stopPropagation(); span.remove(); };
+        span.appendChild(removeBtn);
+        dailyTimesDiv.appendChild(span);
+        dailyTimeInput.value = '';
+      };
+    }
+
+    // Handle Clear all times button
+    const clearTimesBtn = document.getElementById('clearTimes');
+    if(clearTimesBtn && dailyTimesDiv){
+      clearTimesBtn.onclick = () => { dailyTimesDiv.innerHTML = ''; };
+    }
+
