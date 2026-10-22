@@ -31,6 +31,35 @@ const drawControl = new L.Control.Draw({
   }
 });
 map.addControl(drawControl);
+// Inject black glyph icons into the draw toolbar buttons, the same way Leaflet renders
+// the zoom +/- (a real aria-hidden <span> with text inside the anchor). CSS pseudo-elements
+// on the button's sr-only inner span are clipped, so DOM text is the reliable approach.
+const DRAW_GLYPHS = {
+  'leaflet-draw-draw-polygon': '◼',
+  'leaflet-draw-draw-rectangle': '▭',
+  'leaflet-draw-edit-edit': '✏',
+  'leaflet-draw-edit-remove': '✕'
+};
+function injectDrawIcons(){
+  document.querySelectorAll('.leaflet-draw-toolbar a').forEach(a => {
+    if(a.querySelector('.draw-glyph')) return;
+    let glyph = null;
+    for(const cls in DRAW_GLYPHS){
+      if(a.classList.contains(cls)){ glyph = DRAW_GLYPHS[cls]; break; }
+    }
+    if(!glyph) return;
+    const s = document.createElement('span');
+    s.className = 'draw-glyph';
+    s.setAttribute('aria-hidden', 'true');
+    s.textContent = glyph;
+    a.appendChild(s);
+  });
+}
+// Control buttons are created when the control is added; retry a few times in case the
+// toolbar is built slightly after addControl() returns.
+injectDrawIcons();
+setTimeout(injectDrawIcons, 200);
+setTimeout(injectDrawIcons, 1000);
 map.on(L.Draw.Event.DRAWSTART, e => { drawnItems.clearLayers(); });
 map.on(L.Draw.Event.CREATED, e => {
   drawnItems.addLayer(e.layer);

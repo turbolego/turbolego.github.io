@@ -10,7 +10,7 @@ const CLEAR_BTN = document.getElementById('clearArea');
 const map = L.map('map', { zoomControl:true }).setView([59.91,10.75], 9);
 window.map = map;
 L.tileLayer(TILE_OSM, { maxZoom:19, attribution:'© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
-L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map);
+// L.tileLayer(TILE_GEO, { maxZoom:17, attribution:'Geonorge' }).addTo(map); // Temporarily disabled due to service unavailability
 
 const drawnItems = new L.FeatureGroup().addTo(map);
 const drawControl = new L.Control.Draw({
@@ -31,6 +31,35 @@ const drawControl = new L.Control.Draw({
   }
 });
 map.addControl(drawControl);
+// Inject black glyph icons into the draw toolbar buttons, the same way Leaflet renders
+// the zoom +/- (a real aria-hidden <span> with text inside the anchor). CSS pseudo-elements
+// on the button's sr-only inner span are clipped, so DOM text is the reliable approach.
+const DRAW_GLYPHS = {
+  'leaflet-draw-draw-polygon': '◼',
+  'leaflet-draw-draw-rectangle': '▭',
+  'leaflet-draw-edit-edit': '✏',
+  'leaflet-draw-edit-remove': '✕'
+};
+function injectDrawIcons(){
+  document.querySelectorAll('.leaflet-draw-toolbar a').forEach(a => {
+    if(a.querySelector('.draw-glyph')) return;
+    let glyph = null;
+    for(const cls in DRAW_GLYPHS){
+      if(a.classList.contains(cls)){ glyph = DRAW_GLYPHS[cls]; break; }
+    }
+    if(!glyph) return;
+    const s = document.createElement('span');
+    s.className = 'draw-glyph';
+    s.setAttribute('aria-hidden', 'true');
+    s.textContent = glyph;
+    a.appendChild(s);
+  });
+}
+// Control buttons are created when the control is added; retry a few times in case the
+// toolbar is built slightly after addControl() returns.
+injectDrawIcons();
+setTimeout(injectDrawIcons, 200);
+setTimeout(injectDrawIcons, 1000);
 map.on(L.Draw.Event.DRAWSTART, e => { drawnItems.clearLayers(); });
 map.on(L.Draw.Event.CREATED, e => {
   drawnItems.addLayer(e.layer);
@@ -236,4 +265,111 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateStatus('Ready');
   // PWA
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js').catch(e=>log('SW error '+e)); }
+
+  // Settings modal
+  const settingsBtn = document.getElementById('settingsBtn');
+  const settingsModal = document.getElementById('settingsModal');
+  const closeBtn = settingsModal.querySelector('.close');
+  const settingsForm = document.getElementById('settingsForm');
+  const intervalTypeSelect = document.getElementById('intervalType');
+  const daysOfWeekSelect = document.getElementById('daysOfWeek');
+  const dailyTimeInput = document.getElementById('dailyTime');
+  const addDailyTimeBtn = document.getElementById('addDailyTime');
+  const dailyTimesDiv = document.getElementById('dailyTimes');
+  const multipleIntervalSelect = document.getElementById('multipleInterval');
+  const startTimeInput = document.getElementById('startTime');
+  const endTimeInput = document.getElementById('endTime');
+  const dailySettingsDiv = document.getElementById('dailySettings');
+  const multipleSettingsDiv = document.getElementById('multipleSettings');
+  if(settingsBtn && settingsModal && closeBtn && settingsForm){
+    settingsBtn.onclick = () => { settingsModal.style.display = 'block'; };
+    closeBtn.onclick = () => { settingsModal.style.display = 'none'; };
+    window.onclick = e => { if(e.target === settingsModal) settingsModal.style.display = 'none'; };
+    // Load saved settings
+    function loadSettings(){
+      const savedType = localStorage.getItem('intervalType') || 'daily';
+      intervalTypeSelect.value = savedType;
+      const savedDays = localStorage.getItem('daysOfWeek');
+      if(savedDays){
+        const daysArray = savedDays.split(',').map(Number);
+        Array.from(daysOfWeekSelect.options).forEach(o=>{
+          o.selected = daysArray.includes(Number(o.value));
+        });
+      }
+      const savedDailyTime = localStorage.getItem('dailyTime');
+      const savedTimes = localStorage.getItem('dailyTimes');
+      if(savedDailyTime){ dailyTimeInput.value = savedDailyTime; }
+      if(savedTimes){ dailyTimesDiv.innerHTML = savedTimes; }
+      const savedMultiple = localStorage.getItem('multipleInterval');
+      if(savedMultiple){ multipleIntervalSelect.value = savedMultiple; }
+      const savedStart = localStorage.getItem('startTime');
+      if(savedStart){ startTimeInput.value = savedStart; }
+      const savedEnd = localStorage.getItem('endTime');
+      if(savedEnd){ endTimeInput.value = savedEnd; }
+      toggleSettingsSections();
+    }
+    // Save settings
+    function saveSettings(){
+      const type = intervalTypeSelect.value;
+      localStorage.setItem('intervalType', type);
+      const selectedDays = Array.from(daysOfWeekSelect.selectedOptions).map(o=>o.value);
+      localStorage.setItem('daysOfWeek', selectedDays.join(","));
+      localStorage.setItem('dailyTime', dailyTimeInput.value);
+      const timesHTML = dailyTimesDiv.innerHTML;
+      if(timesHTML.trim()){
+        localStorage.setItem('dailyTimes', timesHTML);
+      }else{
+        localStorage.removeItem('dailyTimes');
+      }
+      localStorage.setItem('multipleInterval', multipleIntervalSelect.value);
+      localStorage.setItem('startTime', startTimeInput.value);
+      localStorage.setItem('endTime', endTimeInput.value);
+      settingsModal.style.display = 'none';;
+    }
+    // Form submit
+    settingsForm.addEventListener('submit', e=>{
+      e.preventDefault();
+      saveSettings();
+    });
+    // Toggle sections
+    function toggleSettingsSections(){
+      if(intervalTypeSelect.value === 'daily'){
+        dailySettingsDiv.style.display = 'block';;
+        multipleSettingsDiv.style.display = 'none';;
+      }else{
+        dailySettingsDiv.style.display = 'none';;
+        multipleSettingsDiv.style.display = 'block';;
+      }
+    }
+    intervalTypeSelect.addEventListener('change', toggleSettingsSections);
+    // Load on startup
+    loadSettings();
+  }
 });
+    // Handle Add time button
+    const addDailyTimeBtn = document.getElementById('addDailyTime');
+    const dailyTimesDiv = document.getElementById('dailyTimes');
+    const dailyTimeInput = document.getElementById('dailyTime');
+    if(addDailyTimeBtn && dailyTimesDiv && dailyTimeInput){
+      addDailyTimeBtn.onclick = () => {
+        const time = dailyTimeInput.value;
+        if(!time) return;
+        const span = document.createElement('span');
+        span.style.cssText = 'display:inline-block;margin-right:0.5rem;margin-bottom:0.25rem;padding:0.25rem 0.5rem;background:#111827;color:#e6eef8;border-radius:0.5rem;font-size:0.875rem;';
+        span.textContent = time;
+        const removeBtn = document.createElement('button');
+        removeBtn.style.cssText = 'margin-left:0.4rem;background:none;border:none;color:#cbd5e1;font-size:0.75rem;cursor:pointer;';
+        removeBtn.textContent = '×';
+        removeBtn.onclick = (e) => { e.stopPropagation(); span.remove(); };
+        span.appendChild(removeBtn);
+        dailyTimesDiv.appendChild(span);
+        dailyTimeInput.value = '';
+      };
+    }
+
+    // Handle Clear all times button
+    const clearTimesBtn = document.getElementById('clearTimes');
+    if(clearTimesBtn && dailyTimesDiv){
+      clearTimesBtn.onclick = () => { dailyTimesDiv.innerHTML = ''; };
+    }
+
