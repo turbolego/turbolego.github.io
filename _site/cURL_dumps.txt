@@ -1,0 +1,159 @@
+curl --url 'https://mobiwinqa.bmsystem.se/PlogNorge/Home/GetStatusGroups' \
+  -H 'accept: */*' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -H 'cache-control: no-cache' \
+  -b '.AspNetCore.Antiforgery.JVOPeRJG2w4=CfDJ8Hak4wR8uUNHgo8-ffCv30fmqy7HZuRzoIRs4P8QLHwbKBzd4LuVhZyvD4-LkY_JrqsTgR-oWp_fkNaNfxkz7M-Ne9qZVGzFoAwu4aHeVSB9nEHl6D15YBF01bA15Qts-kJNMh0JMFE8YB-DZAmOmX0; ARRAffinity=b287ebb07ff4a98a809ffbc0ff28be93fb5db0392a5a9ff2ee95c7e8b716bc8e; cwr_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2FiNTZjYy0yN2YxLTRkNTktOTRmZS04OWUyMzJjNTcyMDMiLCJpYXQiOjE3OTE4ODg0NDIsImluc3RhbmNlIjoiYmFlcnVtIiwic3lzdGVtSWQiOiIyIiwibG9jYWxlIjoibm8tTk8iLCJuYmYiOjE3OTE4ODg0NDIsImV4cCI6MTc5MTg5MjA0MiwiaXNzIjoiQ3VzdG9tZXJXZWIiLCJhdWQiOiJDdXN0b21lcldlYiJ9.7lXbFhlq_icj4Yo26kKXXxb1f6ucyaxRE38iejfRuRE' \
+  -H 'dnt: 1' \
+  -H 'pragma: no-cache' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/PlogNorge/baerum?groupId=64' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest'
+
+  """
+
+  curl --url 'https://mobiwinqa.bmsystem.se/PlogNorge/Home/GetStatusGroupsPollIntervalMinutes' \
+  -H 'accept: */*' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -b '.AspNetCore.Antiforgery.JVOPeRJG2w4=CfDJ8Hak4wR8uUNHgo8-ffCv30fmqy7HZuRzoIRs4P8QLHwbKBzd4LuVhZyvD4-LkY_JrqsTgR-oWp_fkNaNfxkz7M-Ne9qZVGzFoAwu4aHeVSB9nEHl6D15YBF01bA15Qts-kJNMh0JMFE8YB-DZAmOmX0; ARRAffinity=b287ebb07ff4a98a809ffbc0ff28be93fb5db0392a5a9ff2ee95c7e8b716bc8e; cwr_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2FiNTZjYy0yN2YxLTRkNTktOTRmZS04OWUyMzJjNTcyMDMiLCJpYXQiOjE3OTE4ODg0NDIsImluc3RhbmNlIjoiYmFlcnVtIiwic3lzdGVtSWQiOiIyIiwibG9jYWxlIjoibm8tTk8iLCJuYmYiOjE3OTE4ODg0NDIsImV4cCI6MTc5MTg5MjA0MiwiaXNzIjoiQ3VzdG9tZXJXZWIiLCJhdWQiOiJDdXN0b21lcldlYiJ9.7lXbFhlq_icj4Yo26kKXXxb1f6ucyaxRE38iejfRuRE' \
+  -H 'dnt: 1' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/PlogNorge/baerum?groupId=64' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest'
+
+  """
+
+  curl --url 'https://mobiwinqa.bmsystem.se/PlogNorge/Home/GetVisits' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -H 'content-type: application/json; charset=UTF-8' \
+  -b '.AspNetCore.Antiforgery.JVOPeRJG2w4=CfDJ8Hak4wR8uUNHgo8-ffCv30fmqy7HZuRzoIRs4P8QLHwbKBzd4LuVhZyvD4-LkY_JrqsTgR-oWp_fkNaNfxkz7M-Ne9qZVGzFoAwu4aHeVSB9nEHl6D15YBF01bA15Qts-kJNMh0JMFE8YB-DZAmOmX0; ARRAffinity=b287ebb07ff4a98a809ffbc0ff28be93fb5db0392a5a9ff2ee95c7e8b716bc8e; cwr_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2FiNTZjYy0yN2YxLTRkNTktOTRmZS04OWUyMzJjNTcyMDMiLCJpYXQiOjE3OTE4ODg0NDIsImluc3RhbmNlIjoiYmFlcnVtIiwic3lzdGVtSWQiOiIyIiwibG9jYWxlIjoibm8tTk8iLCJuYmYiOjE3OTE4ODg0NDIsImV4cCI6MTc5MTg5MjA0MiwiaXNzIjoiQ3VzdG9tZXJXZWIiLCJhdWQiOiJDdXN0b21lcldlYiJ9.7lXbFhlq_icj4Yo26kKXXxb1f6ucyaxRE38iejfRuRE' \
+  -H 'dnt: 1' \
+  -H 'origin: https://mobiwinqa.bmsystem.se' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/PlogNorge/baerum?groupId=64' \
+  -H 'requestverificationtoken: CfDJ8Hak4wR8uUNHgo8-ffCv30fu0NLQk5G35_pYEiIyxiUFqrfBGStuv6iLZ84gtbVJCaU8wvuFoz92hRAy4tbsqEG_ETt_q1H-yiRHvm26jy86kuzeMG_W0-tlftBd-vKOupCfA0xanzoU5Q3QKoQ0oepVAJUORtv0RwZouHUIOVStfrtYfc1gom8GVBKP1TmGBw' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  --data-raw '{"Date":"2026-10-13T10:47:25.008Z","StatusGroupId":64}'
+
+  """
+
+  curl --url 'https://mobiwinqa.bmsystem.se/PlogNorge/Home/GetTimeSliderSettings' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -H 'content-type: application/json; charset=UTF-8' \
+  -b '.AspNetCore.Antiforgery.JVOPeRJG2w4=CfDJ8Hak4wR8uUNHgo8-ffCv30fmqy7HZuRzoIRs4P8QLHwbKBzd4LuVhZyvD4-LkY_JrqsTgR-oWp_fkNaNfxkz7M-Ne9qZVGzFoAwu4aHeVSB9nEHl6D15YBF01bA15Qts-kJNMh0JMFE8YB-DZAmOmX0; ARRAffinity=b287ebb07ff4a98a809ffbc0ff28be93fb5db0392a5a9ff2ee95c7e8b716bc8e; cwr_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2FiNTZjYy0yN2YxLTRkNTktOTRmZS04OWUyMzJjNTcyMDMiLCJpYXQiOjE3OTE4ODg0NDIsImluc3RhbmNlIjoiYmFlcnVtIiwic3lzdGVtSWQiOiIyIiwibG9jYWxlIjoibm8tTk8iLCJuYmYiOjE3OTE4ODg0NDIsImV4cCI6MTc5MTg5MjA0MiwiaXNzIjoiQ3VzdG9tZXJXZWIiLCJhdWQiOiJDdXN0b21lcldlYiJ9.7lXbFhlq_icj4Yo26kKXXxb1f6ucyaxRE38iejfRuRE' \
+  -H 'dnt: 1' \
+  -H 'origin: https://mobiwinqa.bmsystem.se' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/PlogNorge/baerum?groupId=64' \
+  -H 'requestverificationtoken: CfDJ8Hak4wR8uUNHgo8-ffCv30fu0NLQk5G35_pYEiIyxiUFqrfBGStuv6iLZ84gtbVJCaU8wvuFoz92hRAy4tbsqEG_ETt_q1H-yiRHvm26jy86kuzeMG_W0-tlftBd-vKOupCfA0xanzoU5Q3QKoQ0oepVAJUORtv0RwZouHUIOVStfrtYfc1gom8GVBKP1TmGBw' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  --data-raw '64'
+
+  """
+
+  curl --url 'https://mobiwinqa.bmsystem.se/PlogNorge/Home/StatusGroupsLegend?statusGroupId=64' \
+  -H 'accept: */*' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -b '.AspNetCore.Antiforgery.JVOPeRJG2w4=CfDJ8Hak4wR8uUNHgo8-ffCv30fmqy7HZuRzoIRs4P8QLHwbKBzd4LuVhZyvD4-LkY_JrqsTgR-oWp_fkNaNfxkz7M-Ne9qZVGzFoAwu4aHeVSB9nEHl6D15YBF01bA15Qts-kJNMh0JMFE8YB-DZAmOmX0; ARRAffinity=b287ebb07ff4a98a809ffbc0ff28be93fb5db0392a5a9ff2ee95c7e8b716bc8e; cwr_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2FiNTZjYy0yN2YxLTRkNTktOTRmZS04OWUyMzJjNTcyMDMiLCJpYXQiOjE3OTE4ODg0NDIsImluc3RhbmNlIjoiYmFlcnVtIiwic3lzdGVtSWQiOiIyIiwibG9jYWxlIjoibm8tTk8iLCJuYmYiOjE3OTE4ODg0NDIsImV4cCI6MTc5MTg5MjA0MiwiaXNzIjoiQ3VzdG9tZXJXZWIiLCJhdWQiOiJDdXN0b21lcldlYiJ9.7lXbFhlq_icj4Yo26kKXXxb1f6ucyaxRE38iejfRuRE' \
+  -H 'dnt: 1' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/PlogNorge/baerum?groupId=64' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest'
+
+  """
+
+  curl --url 'https://mobiwinqa.bmsystem.se/PlogNorge/Home/GetVisits' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -H 'content-type: application/json; charset=UTF-8' \
+  -b '.AspNetCore.Antiforgery.JVOPeRJG2w4=CfDJ8Hak4wR8uUNHgo8-ffCv30fmqy7HZuRzoIRs4P8QLHwbKBzd4LuVhZyvD4-LkY_JrqsTgR-oWp_fkNaNfxkz7M-Ne9qZVGzFoAwu4aHeVSB9nEHl6D15YBF01bA15Qts-kJNMh0JMFE8YB-DZAmOmX0; ARRAffinity=b287ebb07ff4a98a809ffbc0ff28be93fb5db0392a5a9ff2ee95c7e8b716bc8e; cwr_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2FiNTZjYy0yN2YxLTRkNTktOTRmZS04OWUyMzJjNTcyMDMiLCJpYXQiOjE3OTE4ODg0NDIsImluc3RhbmNlIjoiYmFlcnVtIiwic3lzdGVtSWQiOiIyIiwibG9jYWxlIjoibm8tTk8iLCJuYmYiOjE3OTE4ODg0NDIsImV4cCI6MTc5MTg5MjA0MiwiaXNzIjoiQ3VzdG9tZXJXZWIiLCJhdWQiOiJDdXN0b21lcldlYiJ9.7lXbFhlq_icj4Yo26kKXXxb1f6ucyaxRE38iejfRuRE' \
+  -H 'dnt: 1' \
+  -H 'origin: https://mobiwinqa.bmsystem.se' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/PlogNorge/baerum?groupId=64' \
+  -H 'requestverificationtoken: CfDJ8Hak4wR8uUNHgo8-ffCv30fu0NLQk5G35_pYEiIyxiUFqrfBGStuv6iLZ84gtbVJCaU8wvuFoz92hRAy4tbsqEG_ETt_q1H-yiRHvm26jy86kuzeMG_W0-tlftBd-vKOupCfA0xanzoU5Q3QKoQ0oepVAJUORtv0RwZouHUIOVStfrtYfc1gom8GVBKP1TmGBw' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  --data-raw '{"Date":"2026-10-13T10:52:25.071Z","StatusGroupId":64}'
+
+  """
+
+  curl --url 'https://mobiwinqa.bmsystem.se/PlogNorge/Home/GetTimeSliderSettings' \
+  -H 'accept: application/json, text/javascript, */*; q=0.01' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -H 'content-type: application/json; charset=UTF-8' \
+  -b '.AspNetCore.Antiforgery.JVOPeRJG2w4=CfDJ8Hak4wR8uUNHgo8-ffCv30fmqy7HZuRzoIRs4P8QLHwbKBzd4LuVhZyvD4-LkY_JrqsTgR-oWp_fkNaNfxkz7M-Ne9qZVGzFoAwu4aHeVSB9nEHl6D15YBF01bA15Qts-kJNMh0JMFE8YB-DZAmOmX0; ARRAffinity=b287ebb07ff4a98a809ffbc0ff28be93fb5db0392a5a9ff2ee95c7e8b716bc8e; cwr_jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzY2FiNTZjYy0yN2YxLTRkNTktOTRmZS04OWUyMzJjNTcyMDMiLCJpYXQiOjE3OTE4ODg0NDIsImluc3RhbmNlIjoiYmFlcnVtIiwic3lzdGVtSWQiOiIyIiwibG9jYWxlIjoibm8tTk8iLCJuYmYiOjE3OTE4ODg0NDIsImV4cCI6MTc5MTg5MjA0MiwiaXNzIjoiQ3VzdG9tZXJXZWIiLCJhdWQiOiJDdXN0b21lcldlYiJ9.7lXbFhlq_icj4Yo26kKXXxb1f6ucyaxRE38iejfRuRE' \
+  -H 'dnt: 1' \
+  -H 'origin: https://mobiwinqa.bmsystem.se' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/PlogNorge/baerum?groupId=64' \
+  -H 'requestverificationtoken: CfDJ8Hak4wR8uUNHgo8-ffCv30fu0NLQk5G35_pYEiIyxiUFqrfBGStuv6iLZ84gtbVJCaU8wvuFoz92hRAy4tbsqEG_ETt_q1H-yiRHvm26jy86kuzeMG_W0-tlftBd-vKOupCfA0xanzoU5Q3QKoQ0oepVAJUORtv0RwZouHUIOVStfrtYfc1gom8GVBKP1TmGBw' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36' \
+  -H 'x-requested-with: XMLHttpRequest' \
+  --data-raw '64'
+
+  """
+
+  
+curl --url 'https://maps.bmsystem.se/osm/standard/tile/12/2167/1191.png' \
+  -H 'accept: image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8' \
+  -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \
+  -H 'dnt: 1' \
+  -H 'origin: https://mobiwinqa.bmsystem.se' \
+  -H 'priority: i' \
+  -H 'referer: https://mobiwinqa.bmsystem.se/' \
+  -H 'sec-ch-ua: "Chromium";v="154", "Google Chrome";v="154", "Not A(Brand";v="99"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'sec-fetch-dest: image' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-site' \
+  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36'

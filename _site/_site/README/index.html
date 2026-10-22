@@ -1,0 +1,19 @@
+<h1>PlogeKart</h1>
+<p>Webapp for Brøyteweb / PlogNorge</p>
+<p>Mobile-first PWA using Leaflet to show snowplow visits. Select an area on the map and get notified when status changes.</p>
+<h2>Deploy</h2>
+<p>Hosted on GitHub Pages: https://turbolego.github.io/PlogeKart/</p>
+<h2>CORS note</h2>
+<p>The API at <code>mobiwinqa.bmsystem.se/PlogNorge/Home/*</code> requires session cookies and does <strong>not</strong> send <code>Access-Control-Allow-Origin</code>. Direct fetch from <code>turbolego.github.io</code> is blocked by CORS.</p>
+<p>Fix: run a tiny CORS proxy in front of the BM System API, e.g.:</p>
+<pre><code class="language-js">// proxy.js (Node/Cloudflare Worker)
+addEventListener('fetch', e =&gt; {
+  const url = new URL(e.request.url);
+  const target = 'https://mobiwinqa.bmsystem.se' + url.searchParams.get('url');
+  return fetch(target, { headers: e.request.headers }).then(r =&gt; new Response(r.body, {
+    headers: { 'Access-Control-Allow-Origin': '*', 'Content-Type': r.headers.get('Content-Type') }
+  }));
+});
+</code></pre>
+<p>Point <code>BASE</code> in <code>js/app.js</code> to your proxy and use <code>?url=/PlogNorge/Home/...</code>.</p>
+<p>The current build includes icons and a corrected service worker. For a production deployment, place the proxy behind your domain so credentials can be forwarded.</p>
