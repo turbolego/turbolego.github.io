@@ -79,8 +79,10 @@ function log(msg){ LOG_EL.textContent = new Date().toISOString()+' '+msg+'\n'+LO
 function updateStatus(s){ STATUS_EL.textContent = s ?? STATUS_EL.textContent; }
 
 async function api(path, opts={}) {
-  // Use r.jina.ai proxy for ALL requests to bypass CORS; handles cookies server-side
-  let url = 'https://r.jina.ai/http://mobiwinqa.bmsystem.se' + path.replace(/^\/PlogNorge/, '');
+  // Use r.jina.ai proxy for GET to bypass CORS; POST needs real endpoint with cookies
+  let url = BASE+path;
+  if ((opts.method||'GET').toUpperCase()==='GET') {
+    url = 'https://r.jina.ai/http://mobiwinqa.bmsystem.se' + path.replace(/^\/PlogNorge/, '');
   }
   const res = await fetch(url, {
     credentials:'include',
