@@ -1,9 +1,6 @@
 :root { color-scheme: dark; }
 * { box-sizing: border-box; }
 body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:#0b1220; color:#e6eef8; }
-header { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; padding:.75rem 1rem; background:#0f172a; border-bottom:1px solid #1e293b; }
-h1 { font-size:1.1rem; margin:0; }
-.controls { display:flex; gap:.5rem; margin-left:auto; }
 select, button { background:#111827; color:#e6eef8; border:1px solid #334155; padding:.4rem .6rem; border-radius:.5rem; }
 button { cursor:pointer; }
 #map { height: calc(100vh - 110px); }
