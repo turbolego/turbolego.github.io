@@ -68,11 +68,13 @@ async function loadStaticMapData() {
     const data = await res.json();
     const layer = L.geoJSON(data, {
       style: f => {
+        const color = f.properties?.color || '#94a3b8';
         const type = f.properties?.type || '';
-        if (type === 'visited') return { color: '#22c55e', weight: 4 };
-        if (type === 'visitedRecently') return { color: '#facc15', weight: 5 };
-        if (type === 'notVisited') return { color: '#ef4444', weight: 3 };
-        return { color: '#94a3b8', weight: 2 };
+        let weight = 4;
+        if (type === 'notVisited') weight = 3;
+        else if (type === 'visitedRecently') weight = 5;
+        else if (type === 'maintenance') weight = 4;
+        return { color, weight };
       }
     }).addTo(map);
     window.__staticDataLoaded = true;
