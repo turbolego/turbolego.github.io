@@ -12,3 +12,4 @@ _multiconfig.yml
 src/css/style.css
 src/css/style.css.map
 .node_modules/
+_site/
